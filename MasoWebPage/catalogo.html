@@ -20,12 +20,49 @@
           <a href="sobre-nos.html"><button class="btn" >Sobre Nós</button></a>
 </header>
 <main>
-  <div class="content">
-  <h1>Catalogos</h1>
-  <p>Aqui você encontra elegancia e praticidade</p>
+  <div class="filters">
+      <button class="filter-btn" data-collection="all">Todos</button>
+      <button class="filter-btn" data-collection="colecao1">Coleção 1</button>
+      <button class="filter-btn" data-collection="colecao2">Coleção 2</button>
+  </div>
+
+
+  <div class="catalog">
+
+    <div class="catalog-item" data-collection="colecao1" data-id="1">
+        <img src="img/item1.jpg" alt="Item 1">
+        <h3>Louro Freijó</h3>
+        <button class="favorite-btn">
+          <svg viewBox="0 0 48 48" class="svgIcon" xmlns="http://www.w3.org/2000/svg"  >
+            <path fill="#F44336" d="M37,43l-13-6l-13,6V9c0-2.2,1.8-4,4-4h18c2.2,0,4,1.8,4,4V43z"></path>
+            </svg>
+        </button>
+        <button class="remove-favorite-btn">
+          <svg viewBox="0 0 448 512" class="svgIcon"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path></svg>
+        </button>
+    </div>
+
+
+    <div class="catalog-item" data-collection="colecao2" data-id="2">
+        <img src="img/item2.jpg" alt="Item 2">
+        <h3>Item 2</h3>
+        <button class="favorite-btn"></button>
+        <button class="remove-favorite-btn">
+          <svg viewBox="0 0 448 512" class="svgIcon"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path></svg>
+        </button>
+    </div>
+    <div class="catalog-item" data-collection="colecao1" data-id="3">
+        <img src="img/item3.jpg" alt="Item 3">
+        <h3>Item 3</h3>
+        <button class="favorite-btn"></button>
+        <button class="remove-favorite-btn">          
+          <svg viewBox="0 0 448 512" class="svgIcon"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path></svg>
+        </button>
+    </div>
   </div>
 </main>
-<script src="main.js"></script>
+
+
 </body>
 
 <footer>

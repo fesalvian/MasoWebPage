@@ -4,7 +4,7 @@ body {
     text-decoration: white;
     background-image: url('img/imgFundo.jpg'); 
     background-size: cover; 
-    background-attachment: scroll; 
+    background-attachment: fixed;
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -60,6 +60,64 @@ main {
   .content{
     color: white;
   }
+
+  .containerSection {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .card {
+    height: 600px;
+    width: 100px;
+    flex: 1;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .colTitle{
+    text-align: center;
+    color: white;
+    font-family: "Miss Fajardose", cursive;
+    font-size: 20vh;
+    font-weight: 400;
+    font-style: normal;
+    
+  }
+
+  #Arauco{
+    background-image: url(img/arauco.png);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  #Guararapes{
+    background-image: url(img/guararapes.png);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  #Duratex{
+    background-image: url(img/duratex.png);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 8px rgba(0, 0, 0, 0.1);
+
+  }
+
+  #Berneck{
+    background-image: url(img/berneck.png);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 8px rgba(0, 0, 0, 0.1);
+
+  }
+  
+  .card:hover {
+    flex: 2;
+    background-color: #b8b8b8;
+  }
+
 
   footer{
     color: white;
@@ -177,4 +235,174 @@ ul {
 .example-2 .icon-content a[data-social="whatsapp"] .filled,
 .example-2 .icon-content a[data-social="whatsapp"] ~ .tooltip {
   background-color: #20b402;
+}
+
+  /*catalog*/
+
+  .btn, .filter-btn {
+    font-size: 1.2rem;
+    padding: 1rem 2.5rem;
+    border: none;
+    outline: none;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    background-color: rgb(46, 46, 46);
+    color: rgb(234, 234, 234);
+    font-weight: 700;
+    transition: 0.6s;
+    box-shadow: 0px 0px 60px #494949;
+    -webkit-box-reflect: below 10px linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.4));
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn:active, .filter-btn:active {
+    scale: 0.92;
+}
+
+.btn:hover, .filter-btn:hover {
+    background: rgb(2,29,78);
+    background: linear-gradient(270deg, rgba(56, 57, 59, 0.681) 0%, rgba(255, 255, 255, 0.873) 60%);
+    color: rgb(4, 4, 38);
+}
+
+
+.filters {
+  margin-bottom: 90px;
+}
+
+.catalog {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.catalog-item {
+  background-color: rgba(255, 255, 255, 0.74);
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: center;
+  width: calc(33.333% - 20px);
+  position: relative;
+}
+
+.catalog-item img {
+  margin-top: 20px;
+  width: 80%;
+  height: 60%;
+  border-radius: 15px;
+}
+
+/*botão add favorite*/
+
+.favorite-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgb(20, 20, 20);
+  border: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+  cursor: pointer;
+  transition-duration: .3s;
+  overflow: hidden;
+  position: relative;
+  left: 15%;
+  top: -65%;
+}
+
+.svgIcon {
+  width: 12px;
+  transition-duration: .3s;
+}
+
+.svgIcon path {
+  fill: white;
+}
+
+.favorite-btn:hover {
+  width: 160px;
+  border-radius: 50px;
+  transition-duration: .3s;
+  background-color: rgb(34, 182, 4);
+  align-items: center;
+}
+
+.favorite-btn:hover .svgIcon {
+  width: 50px;
+  transition-duration: .3s;
+  transform: translateY(60%);
+}
+
+.favorite-btn::before {
+  position: absolute;
+  top: -20px;
+  content: "Add aos Favoritos";
+  color: white;
+  transition-duration: .3s;
+  font-size: 2px;
+}
+
+.favorite-btn:hover::before {
+  font-size: 13px;
+  opacity: 1;
+  transform: translateY(30px);
+  transition-duration: .3s;
+}
+
+/*botão remover favorite*/
+.remove-favorite-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgb(20, 20, 20);
+  border: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+  cursor: pointer;
+  transition-duration: .3s;
+  overflow: hidden;
+  position: relative;
+  margin-top: 20px;
+  left: 15%;
+  top: -65%;
+}
+
+
+.remove-favorite-btn:hover {
+  width: 160px;
+  border-radius: 50px;
+  transition-duration: .3s;
+  background-color: rgb(255, 69, 69);
+  align-items: center;
+}
+
+.remove-favorite-btn:hover .svgIcon {
+  width: 50px;
+  transition-duration: .3s;
+  transform: translateY(60%);
+}
+
+.remove-favorite-btn::before {
+  position: absolute;
+  top: -20px;
+  content: "Remover de Favoritos";
+  color: white;
+  transition-duration: .3s;
+  font-size: 2px;
+}
+
+.remove-favorite-btn:hover::before {
+  font-size: 13px;
+  opacity: 1;
+  transform: translateY(30px);
+  transition-duration: .3s;
 }
