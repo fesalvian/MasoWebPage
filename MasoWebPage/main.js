@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const catalogItems = document.querySelectorAll('.catalog-item');
-    const favoriteButtons = document.querySelectorAll('.favorite-btn');
-    const removeFavoriteButtons = document.querySelectorAll('.remove-favorite-btn');
+    const checkboxes = document.querySelectorAll('.favorite-checkbox');
+
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    console.log(favorites);
 
     // Função de filtragem
     filterButtons.forEach(button => {
@@ -19,38 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Função de favoritar
-    favoriteButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const item = button.parentElement;
-            const itemId = item.dataset.id;
-            let favorites = getFavorites();
-
-            if (!favorites.includes(itemId)) {
-                favorites.push(itemId);
-                localStorage.setItem('favorites', JSON.stringify(favorites));
-                item.classList.add('favorite');
-            }
-        });
-    });
-
-    // Função de remover dos favoritos
-    removeFavoriteButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const item = button.parentElement;
-            const itemId = item.dataset.id;
-            let favorites = getFavorites();
-
-            favorites = favorites.filter(fav => fav !== itemId);
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-            item.classList.remove('favorite');
-        });
-    });
-
     // Carregar favoritos do localStorage
     function loadFavorites() {
-        const favorites = getFavorites();
-
         catalogItems.forEach(item => {
             const itemId = item.dataset.id;
             if (favorites.includes(itemId)) {
@@ -59,32 +31,65 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Obter favoritos do localStorage
-    function getFavorites() {
-        return JSON.parse(localStorage.getItem('favorites')) || [];
-    }
-
     loadFavorites();
 
-    // Funcionalidade para a página de favoritos
+    // Set the initial state of the checkboxes based on LocalStorage
+    checkboxes.forEach(checkbox => {
+        const catalogItem = checkbox.closest('.catalog-item');
+        const itemId = catalogItem.getAttribute('data-id');
+        if (favorites.includes(itemId)) {
+            checkbox.checked = true;
+        }
+
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                addToFavorites(itemId);
+            } else {
+                removeFromFavorites(itemId);
+            }
+        });
+    });
+
+    function addToFavorites(itemId) {
+        if (!favorites.includes(itemId)) {
+            favorites.push(itemId);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            console.log(`Item ${itemId} adicionado aos favoritos`);
+        }
+    }
+
+    function removeFromFavorites(itemId) {
+        const index = favorites.indexOf(itemId);
+        if (index !== -1) {
+            favorites.splice(index, 1);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            console.log(`Item ${itemId} removido dos favoritos`);
+        }
+    }
+
     const favoritesCatalog = document.getElementById('favoritesCatalog');
     if (favoritesCatalog) {
         loadFavoriteItems();
     }
 
     function loadFavoriteItems() {
-        const favorites = getFavorites();
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        console.log(favorites);
         favoritesCatalog.innerHTML = '';
 
         catalogItems.forEach(item => {
             const itemId = item.dataset.id;
             if (favorites.includes(itemId)) {
                 const itemClone = item.cloneNode(true);
-                itemClone.querySelector('.favorite-btn').textContent = 'Remover dos Favoritos';
-                itemClone.querySelector('.favorite-btn').style.display = 'none'; // Ocultar botão de favoritar
-                itemClone.querySelector('.remove-favorite-btn').addEventListener('click', () => {
-                    removeFavorite(itemClone, itemId);
-                });
+                const checkbox = itemClone.querySelector('.favorite-checkbox');
+                if (checkbox) {
+                    checkbox.checked = true;
+                    checkbox.addEventListener('change', function() {
+                        if (!this.checked) {
+                            removeFavorite(itemClone, itemId);
+                        }
+                    });
+                }
                 favoritesCatalog.appendChild(itemClone);
             }
         });
@@ -92,12 +97,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function removeFavorite(item, itemId) {
         item.remove();
-        let favorites = getFavorites();
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
         favorites = favorites.filter(fav => fav !== itemId);
         localStorage.setItem('favorites', JSON.stringify(favorites));
         const originalItem = document.querySelector(`.catalog-item[data-id="${itemId}"]`);
         if (originalItem) {
             originalItem.classList.remove('favorite');
+            const originalCheckbox = originalItem.querySelector('.favorite-checkbox');
+            if (originalCheckbox) {
+                originalCheckbox.checked = false;
+            }
         }
     }
 });
