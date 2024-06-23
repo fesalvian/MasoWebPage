@@ -1,25 +1,57 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const filterButtons = document.querySelectorAll('.filter-btn');
     const catalogItems = document.querySelectorAll('.catalog-item');
     const checkboxes = document.querySelectorAll('.favorite-checkbox');
-
+    const cards = document.querySelectorAll('.card');
+    const filterSelect = document.getElementById('filterSelect');
+    const searchInput = document.getElementById('searchInput');
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    console.log(favorites);
 
-    // Função de filtragem
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const collection = button.dataset.collection;
 
-            catalogItems.forEach(item => {
-                if (collection === 'all' || item.dataset.collection === collection) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
+ // Função de filtragem
+ filterSelect.addEventListener('change', () => {
+    const collection = filterSelect.value;
+    filterAndSearch(collection, searchInput.value.toLowerCase());
+});
+
+// Função de busca
+searchInput.addEventListener('input', () => {
+    const searchTerm = searchInput.value.toLowerCase();
+    filterAndSearch(filterSelect.value, searchTerm);
+});
+
+function filterAndSearch(collection, searchTerm) {
+    catalogItems.forEach(item => {
+        const itemCollection = item.dataset.collection;
+        const itemName = item.dataset.name.toLowerCase();
+        
+        if ((collection === 'all' || itemCollection === collection) && itemName.includes(searchTerm)) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+// Verifica se há um parâmetro de filtro na URL e aplica o filtro correspondente
+const urlParams = new URLSearchParams(window.location.search);
+const filter = urlParams.get('filter');
+if (filter) {
+    filterSelect.value = filter;
+    filterAndSearch(filter, searchInput.value.toLowerCase());
+}
+});
+
+
+    //funcao de redirecionamento dos cards da home page
+
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            const filter = card.getAttribute('data-filter');
+            console.log(`Redirecting to catalogo.html with filter: ${filter}`);
+            window.location.href = `catalogo.html?filter=${filter}`;
         });
     });
+
 
     // Carregar favoritos do localStorage
     function loadFavorites() {
@@ -33,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadFavorites();
 
-    // Set the initial state of the checkboxes based on LocalStorage
+    // Seta o valor inicial da checkbox baseado no localstorage
     checkboxes.forEach(checkbox => {
         const catalogItem = checkbox.closest('.catalog-item');
         const itemId = catalogItem.getAttribute('data-id');
@@ -109,4 +141,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-});
+

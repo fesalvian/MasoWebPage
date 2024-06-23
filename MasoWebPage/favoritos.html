@@ -22,9 +22,14 @@
 <main>
 
   <div class="filters">
-    <button class="filter-btn" data-collection="all">Todos</button>
-    <button class="filter-btn" data-collection="colecao1">Coleção 1</button>
-    <button class="filter-btn" data-collection="colecao2">Coleção 2</button>
+    <select id="filterSelect">
+        <option value="all">Todos</option>
+        <option value="colecao1">Duratex</option>
+        <option value="colecao2">Arauco</option>
+        <option value="colecao3">Guararapes</option>
+        <option value="colecao4">Berneck</option>
+    </select>
+    <input type="text" id="searchInput" placeholder="Buscar por nome...">
 </div>
 
  <div class="favorites">
