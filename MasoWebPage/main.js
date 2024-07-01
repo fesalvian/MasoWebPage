@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("O dom foi carregado");
     const catalogItems = document.querySelectorAll('.catalog-item');
     const checkboxes = document.querySelectorAll('.favorite-checkbox');
     const cards = document.querySelectorAll('.card');
@@ -6,9 +7,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('searchInput');
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
+    if (cards.length > 0) {
+        console.log(`Encontrados ${cards.length} elementos com a classe 'card'`); // Log de depuração
+    } else {
+        console.log('Nenhum elemento com a classe "card" foi encontrado'); // Log de depuração
+    }
+
+
+        //funcao de redirecionamento dos cards da home page
+
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                console.log("card de filtro clicado");
+                const filter = card.getAttribute('data-filter');
+                console.log(`Redirecting to catalogo.html with filter: ${filter}`);
+                window.location.href = `catalogo.html?filter=${filter}`;
+            });
+        });
 
  // Função de filtragem
- filterSelect.addEventListener('change', () => {
+filterSelect.addEventListener('change', () => {
     const collection = filterSelect.value;
     filterAndSearch(collection, searchInput.value.toLowerCase());
 });
@@ -38,20 +56,7 @@ const filter = urlParams.get('filter');
 if (filter) {
     filterSelect.value = filter;
     filterAndSearch(filter, searchInput.value.toLowerCase());
-}
-});
-
-
-    //funcao de redirecionamento dos cards da home page
-
-    cards.forEach(card => {
-        card.addEventListener('click', () => {
-            const filter = card.getAttribute('data-filter');
-            console.log(`Redirecting to catalogo.html with filter: ${filter}`);
-            window.location.href = `catalogo.html?filter=${filter}`;
-        });
-    });
-
+};
 
     // Carregar favoritos do localStorage
     function loadFavorites() {
@@ -82,6 +87,8 @@ if (filter) {
         });
     });
 
+        //adiciona aos favoritos
+
     function addToFavorites(itemId) {
         if (!favorites.includes(itemId)) {
             favorites.push(itemId);
@@ -89,6 +96,8 @@ if (filter) {
             console.log(`Item ${itemId} adicionado aos favoritos`);
         }
     }
+
+        //remove dos favoritos
 
     function removeFromFavorites(itemId) {
         const index = favorites.indexOf(itemId);
@@ -98,6 +107,8 @@ if (filter) {
             console.log(`Item ${itemId} removido dos favoritos`);
         }
     }
+
+        //pagina de favoritos funcionalidades
 
     const favoritesCatalog = document.getElementById('favoritesCatalog');
     if (favoritesCatalog) {
@@ -141,4 +152,4 @@ if (filter) {
             }
         }
     }
-
+});
