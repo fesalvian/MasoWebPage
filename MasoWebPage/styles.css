@@ -57,6 +57,13 @@ main {
     color: rgb(4, 4, 38);
   }
 
+  .btn.active {
+    background: rgb(2, 29, 78);
+    background: linear-gradient(270deg, rgba(56, 57, 59, 0.681) 0%, rgba(255, 255, 255, 0.873) 60%);
+    color: rgb(4, 4, 38);
+    border: 2px solid rgb(255, 255, 255);
+  }
+
   .content{
     color: white;
   }
@@ -282,17 +289,17 @@ ul {
   border-radius: 15px;
 }
 
-/*botão add favorite*/
+/* Estilo para o botão de adicionar aos favoritos */
 .bookmark {
   position: relative;
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content:center;
+  justify-content: center;
 }
 
-#checkboxInput {
-  display: none;
+.favorite-checkbox {
+  display: none; /* Esconde o checkbox */
 }
 
 .svgIcon {
@@ -300,29 +307,29 @@ ul {
 }
 
 .svgIcon path {
-  fill: rgb(153, 153, 153);
+  fill: rgb(153, 153, 153); /* Cor padrão do ícone */
 }
 
 .bookmark::before {
-  content: "\002B";
+  content: "\002B"; /* Símbolo de adicionar */
   position: absolute;
   color: rgb(255, 255, 255);
   font-size: 1.2em;
   top: 1px;
 }
 
-#checkboxInput:checked + .bookmark::before {
-  content: "\2713";
+.favorite-checkbox:checked + .bookmark::before {
+  content: "\2713"; /* Símbolo de verificação */
   font-size: 0.70em;
   top: 5px;
 }
 
-#checkboxInput:checked + .bookmark .svgIcon path {
-  fill: rgb(121, 199, 3);
+.favorite-checkbox:checked + .bookmark .svgIcon path {
+  fill: rgb(121, 199, 3); /* Cor do ícone quando marcado */
 }
 
-#checkboxInput:active + .bookmark .svgIcon path {
-  fill: rgb(204, 204, 204);
+.bookmark:active .svgIcon path {
+  fill: rgb(204, 204, 204); /* Cor do ícone quando ativo */
 }
 
 .bookmark::after {
@@ -335,7 +342,7 @@ ul {
   z-index: -1;
 }
 
-#checkboxInput:checked + .bookmark::after {
+.favorite-checkbox:checked + .bookmark::after {
   animation: puff-out-center .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) both;
 }
 
@@ -345,11 +352,11 @@ ul {
     filter: blur(0px);
     opacity: 1;
   }
-
   100% {
     transform: scale(9);
     filter: blur(1px);
     opacity: 0;
   }
 }
+
 

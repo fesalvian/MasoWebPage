@@ -1,21 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("O dom foi carregado");
     const catalogItems = document.querySelectorAll('.catalog-item');
     const checkboxes = document.querySelectorAll('.favorite-checkbox');
     const cards = document.querySelectorAll('.card');
     const filterSelect = document.getElementById('filterSelect');
     const searchInput = document.getElementById('searchInput');
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    const navButtons = document.querySelectorAll('.navButtons .btn');
+    const currentPage = window.location.pathname.split('/').pop();
+    
 
-    if (cards.length > 0) {
-        console.log(`Encontrados ${cards.length} elementos com a classe 'card'`); // Log de depuração
-    } else {
-        console.log('Nenhum elemento com a classe "card" foi encontrado'); // Log de depuração
-    }
-
+    //resposta visual dos botoes de navegação (ficam em branco na pagina que vc esta)
+    navButtons.forEach(button => {
+        const buttonPage = button.closest('a').getAttribute('href'); // Obtém o href do link pai
+        if (buttonPage === currentPage) {
+        button.classList.add('active');
+        }
+    });
 
         //funcao de redirecionamento dos cards da home page
-
         cards.forEach(card => {
             card.addEventListener('click', () => {
                 console.log("card de filtro clicado");
@@ -50,6 +52,8 @@ function filterAndSearch(collection, searchTerm) {
     });
 }
 
+
+
 // Verifica se há um parâmetro de filtro na URL e aplica o filtro correspondente
 const urlParams = new URLSearchParams(window.location.search);
 const filter = urlParams.get('filter');
@@ -64,6 +68,10 @@ if (filter) {
             const itemId = item.dataset.id;
             if (favorites.includes(itemId)) {
                 item.classList.add('favorite');
+                const checkbox = item.querySelector('.favorite-checkbox');
+                if (checkbox) {
+                    checkbox.checked = true;
+                }
             }
         });
     }
