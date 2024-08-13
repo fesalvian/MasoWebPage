@@ -1,0 +1,64 @@
+
+                    /* ===== cards da home page ===== */
+.content{
+    color: white;
+  }
+
+  .containerSection {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .card {
+    height: 600px;
+    width: 100px;
+    flex: 1;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-repeat: no-repeat; 
+    background-size: cover; 
+  }
+
+  .colTitle{
+    text-align: center;
+    color: white;
+    font-family: "Miss Fajardose", cursive;
+    font-size: 20vh;
+    font-weight: 400;
+    font-style: normal;
+    
+  }
+
+  #Arauco{
+    background-image: url('../img/arauco.png');
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  #Guararapes{
+    background-image: url(../img/guararapes.png);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  #Duratex{
+    background-image: url(../img/duratex.png);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 8px rgba(0, 0, 0, 0.1);
+
+  }
+
+  #Berneck{
+    background-image: url(../img/berneck.png);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 8px rgba(0, 0, 0, 0.1);
+
+  }
+  
+  .card:hover {
+    flex: 2;
+    background-color: #b8b8b8;
+  }
