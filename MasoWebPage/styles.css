@@ -1,0 +1,362 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient( to right, rgb(0, 0, 0), rgb(0, 0, 0));
+    text-decoration: white;
+    background-image: url('img/imgFundo.jpg'); 
+    background-size: cover; 
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #00000094;
+  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+}
+
+.logoMaso {
+    width: 15%;
+    height: auto;
+    cursor: pointer;
+}
+
+main {
+  min-height: 100vh; 
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.btn {
+    font-size: 1.2rem;
+    padding: 1rem 2.5rem;
+    border: none;
+    outline: none;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    background-color: rgb(46, 46, 46);
+    color: rgb(234, 234, 234);
+    font-weight: 700;
+    transition: 0.6s;
+    box-shadow: 0px 0px 60px #494949;
+    -webkit-box-reflect: below 10px linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.4));
+  }
+  
+  .btn:active {
+    scale: 0.92;
+  }
+  
+  .btn:hover {
+    background: rgb(2,29,78);
+    background: linear-gradient(270deg, rgba(56, 57, 59, 0.681) 0%, rgba(255, 255, 255, 0.873) 60%);
+    color: rgb(4, 4, 38);
+  }
+
+  .btn.active {
+    background: rgb(2, 29, 78);
+    background: linear-gradient(270deg, rgba(56, 57, 59, 0.681) 0%, rgba(255, 255, 255, 0.873) 60%);
+    color: rgb(4, 4, 38);
+    border: 2px solid rgb(255, 255, 255);
+  }
+
+  .content{
+    color: white;
+  }
+
+  .containerSection {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .card {
+    height: 600px;
+    width: 100px;
+    flex: 1;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-repeat: no-repeat; 
+    background-size: cover; 
+  }
+
+  .colTitle{
+    text-align: center;
+    color: white;
+    font-family: "Miss Fajardose", cursive;
+    font-size: 20vh;
+    font-weight: 400;
+    font-style: normal;
+    
+  }
+
+  #Arauco{
+    background-image: url(img/arauco.png);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  #Guararapes{
+    background-image: url(img/guararapes.png);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  #Duratex{
+    background-image: url(img/duratex.png);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 8px rgba(0, 0, 0, 0.1);
+
+  }
+
+  #Berneck{
+    background-image: url(img/berneck.png);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 8px rgba(0, 0, 0, 0.1);
+
+  }
+  
+  .card:hover {
+    flex: 2;
+    background-color: #b8b8b8;
+  }
+
+
+  footer{
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #00000094;
+    box-shadow: 0 2px 4px rgba(153, 153, 153, 0.1);
+    border-radius: 20px;
+  }
+
+  
+footer a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 0 10px;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+ul {
+  list-style: none;
+}
+
+.example-2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.example-2 .icon-content {
+  margin: 0 10px;
+  position: relative;
+}
+.example-2 .icon-content .tooltip {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 5px;
+  opacity: 0;
+  visibility: hidden;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+.example-2 .icon-content:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  top: -50px;
+}
+.example-2 .icon-content a {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: 50px;
+  border-radius: 50%;
+  color: #4d4d4d;
+  background-color: #fff;
+  transition: all 0.3s ease-in-out;
+}
+.example-2 .icon-content a:hover {
+  box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 12%);
+}
+.example-2 .icon-content a svg {
+  position: relative;
+  z-index: 1;
+  width: 30px;
+  height: 30px;
+}
+.example-2 .icon-content a:hover {
+  color: white;
+}
+.example-2 .icon-content a .filled {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background-color: #000;
+  transition: all 0.3s ease-in-out;
+}
+.example-2 .icon-content a:hover .filled {
+  height: 100%;
+}
+
+.example-2 .icon-content a[data-social="linkedin"] .filled,
+.example-2 .icon-content a[data-social="linkedin"] ~ .tooltip {
+  background-color: #0274b3;
+}
+
+.example-2 .icon-content a[data-social="email"] .filled,
+.example-2 .icon-content a[data-social="email"] ~ .tooltip {
+  background-color: #24262a;
+}
+.example-2 .icon-content a[data-social="instagram"] .filled,
+.example-2 .icon-content a[data-social="instagram"] ~ .tooltip {
+  background: linear-gradient(
+    45deg,
+    #405de6,
+    #5b51db,
+    #b33ab4,
+    #c135b4,
+    #e1306c,
+    #fd1f1f
+  );
+}
+.example-2 .icon-content a[data-social="whatsapp"] .filled,
+.example-2 .icon-content a[data-social="whatsapp"] ~ .tooltip {
+  background-color: #20b402;
+}
+
+  /*catalog*/
+
+  .filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+#filterSelect {
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+#searchInput {
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    flex: 1;
+}
+
+.catalog {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.catalog-item {
+  background-color: rgba(255, 255, 255, 0.74);
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: center;
+  width: calc(33.333% - 20px);
+  position: relative;
+}
+
+.catalog-item img {
+  margin-top: 20px;
+  width: 80%;
+  height: 60%;
+  border-radius: 15px;
+}
+
+/* Estilo para o botão de adicionar aos favoritos */
+.bookmark {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.favorite-checkbox {
+  display: none; /* Esconde o checkbox */
+}
+
+.svgIcon {
+  height: 30px;
+}
+
+.svgIcon path {
+  fill: rgb(153, 153, 153); /* Cor padrão do ícone */
+}
+
+.bookmark::before {
+  content: "\002B"; /* Símbolo de adicionar */
+  position: absolute;
+  color: rgb(255, 255, 255);
+  font-size: 1.2em;
+  top: 1px;
+}
+
+.favorite-checkbox:checked + .bookmark::before {
+  content: "\2713"; /* Símbolo de verificação */
+  font-size: 0.70em;
+  top: 5px;
+}
+
+.favorite-checkbox:checked + .bookmark .svgIcon path {
+  fill: rgb(121, 199, 3); /* Cor do ícone quando marcado */
+}
+
+.bookmark:active .svgIcon path {
+  fill: rgb(204, 204, 204); /* Cor do ícone quando ativo */
+}
+
+.bookmark::after {
+  content: "";
+  background-color: rgba(56, 105, 0, 0.342);
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.favorite-checkbox:checked + .bookmark::after {
+  animation: puff-out-center .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) both;
+}
+
+@keyframes puff-out-center {
+  0% {
+    transform: scale(1);
+    filter: blur(0px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(9);
+    filter: blur(1px);
+    opacity: 0;
+  }
+}
+
+
