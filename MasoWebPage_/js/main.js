@@ -1,5 +1,8 @@
+
+
 document.addEventListener('DOMContentLoaded', () => {
 
+    const catalogItems = document.querySelectorAll('.catalog-item');
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
     //resposta visual dos botoes de navegação (ficam em branco na pagina que vc esta)

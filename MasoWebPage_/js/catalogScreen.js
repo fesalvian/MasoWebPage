@@ -1,4 +1,10 @@
-const catalogItems = document.querySelectorAll('.catalog-item');
+
+import {filterAndSearch} from "./modulo.js";
+
+document.addEventListener ('DOMContentLoaded', () => {
+
+
+
 // Função de filtragem
 const filterSelect = document.getElementById('filterSelect');
 filterSelect.addEventListener('change', () => {
@@ -13,18 +19,7 @@ searchInput.addEventListener('input', () => {
     filterAndSearch(filterSelect.value, searchTerm);
 });
 
-function filterAndSearch(collection, searchTerm) {
-    catalogItems.forEach(item => {
-        const itemCollection = item.dataset.collection;
-        const itemName = item.dataset.name.toLowerCase();
-        
-        if ((collection === 'all' || itemCollection === collection) && itemName.includes(searchTerm)) {
-            item.style.display = 'block';
-        } else {
-            item.style.display = 'none';
-        }
-    });
-}
+
 
         //adiciona aos favoritos
 
@@ -45,4 +40,5 @@ function filterAndSearch(collection, searchTerm) {
                 localStorage.setItem('favorites', JSON.stringify(favorites));
                 console.log(`Item ${itemId} removido dos favoritos`);
             }
-        };
+        }
+    });

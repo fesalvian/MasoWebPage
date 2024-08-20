@@ -1,4 +1,8 @@
+
+import filterAndSearch from  './modulo.js';
+
 document.addEventListener('DOMContentLoaded', () => {
+
 const cards = document.querySelectorAll('.card');
 
         //funcao de redirecionamento dos cards da home page
@@ -12,6 +16,7 @@ const cards = document.querySelectorAll('.card');
         });
 
         // Verifica se há um parâmetro de filtro na URL e aplica o filtro correspondente
+
 const urlParams = new URLSearchParams(window.location.search);
 const filter = urlParams.get('filter');
 if (filter) {
