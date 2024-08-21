@@ -33,21 +33,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadFavorites();
 
-    // Seta o valor inicial da checkbox baseado no localstorage
-    const checkboxes = document.querySelectorAll('.favorite-checkbox');
-    checkboxes.forEach(checkbox => {
-        const catalogItem = checkbox.closest('.catalog-item');
-        const itemId = catalogItem.getAttribute('data-id');
-        if (favorites.includes(itemId)) {
-            checkbox.checked = true;
-        }
-
-        checkbox.addEventListener('change', function() {
-            if (this.checked) {
-                addToFavorites(itemId);
-            } else {
-                removeFromFavorites(itemId);
-            }
-        });
-    });
+    console.log("arquivo main carregado com sucesso");
 });

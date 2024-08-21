@@ -1,4 +1,5 @@
-export function filterAndSearch(collection, searchTerm) {
+export default function filterAndSearch(collection, searchTerm) {
+    const catalogItems = document.querySelectorAll('.catalog-item');
     catalogItems.forEach(item => {
         const itemCollection = item.dataset.collection;
         const itemName = item.dataset.name.toLowerCase();
