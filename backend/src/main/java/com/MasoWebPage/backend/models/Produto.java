@@ -1,5 +1,6 @@
 package com.MasoWebPage.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,6 +11,8 @@ import lombok.Setter;
 @Setter//       anotacoes do lombok sao apenas para simplificar codigo, nao afeta comportamento!!!!!!
 @AllArgsConstructor//
 @NoArgsConstructor//}
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
 @Entity
 @Table
