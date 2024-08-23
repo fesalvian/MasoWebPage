@@ -1,5 +1,5 @@
 
-import filterAndSearch from "./modelo.js";
+//import filterAndSearch from "./modelo.js";
 
 document.addEventListener ('DOMContentLoaded', () => {
     const filterSelect = document.getElementById('filterSelect');
@@ -61,3 +61,38 @@ checkboxes.forEach(checkbox => {
         }
     });
 
+    //imprime catalogo do db na tela
+
+    fetch('../mocks/catalog.json')
+    .then(response => response.json())    
+    .then(data =>{
+
+        console.log("fetch carregado com sucesso");
+
+        const catalog = document.getElementById('catalog');
+
+        data.forEach(item =>{
+
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'item';
+
+            itemDiv.innerHTML = 
+            `<div class="catalog-item" data-collection="colecao1" data-id="1" data-name="${item.name}">
+        <img src="${item.image}" alt="${item.name}">
+        <h3 class="nomeCores">${item.name}</h3><h4 class="nomeColec">${item.colection}</h4>
+        <input type="checkbox" id="checkboxInput-1" class="favorite-checkbox"> 
+        <!-- Ao adicionar item, se atente ao checkboxInput, pois para o JS ler tem que haver o valor correto do item -->
+        <label for="checkboxInput-1" class="bookmark">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512" class="svgIcon">
+                <path d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"></path>
+            </svg>
+        </label>
+    </div>`;
+
+    catalog.appendChild(itemDiv);
+        });
+    })
+
+    .catch(error => console.error('Erro ao carregar o fetch', error));
+
+    

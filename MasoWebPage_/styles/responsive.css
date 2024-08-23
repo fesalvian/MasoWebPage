@@ -1,0 +1,24 @@
+@media (max-width: 768px) {
+
+    header, footer{
+        width: auto;
+    }
+
+    .catalog {
+        grid-template-columns: 1fr;
+    }
+}
+
+    .catalog-item {
+        position: relative;
+        grid-column: span 1;
+        width: auto;
+        margin-bottom: 10px;
+    }
+
+.catalog-item img {
+    margin-top: 20px;
+    width: 90%;
+    height: 60%;
+    border-radius: 15px;
+}
