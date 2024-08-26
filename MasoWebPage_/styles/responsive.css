@@ -1,13 +1,21 @@
 @media (max-width: 768px) {
 
-    header, footer{
+    header{
         width: auto;
+        
+    }
+
+    footer{
+    display: flex;
+    flex-direction: column;    
+    align-items: center;
+    padding: 10px;
     }
 
     .catalog {
         grid-template-columns: 1fr;
     }
-}
+
 
     .catalog-item {
         position: relative;
@@ -21,4 +29,77 @@
     width: 90%;
     height: 60%;
     border-radius: 15px;
+}
+
+.card{
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilo Responsivo cadastro */
+
+
+    .main-cadastro {
+        padding: 15px;
+        box-shadow: none;
+        
+    }
+
+    input[type="text"], 
+    input[type="email"], 
+    input[type="password"],
+    select {
+        margin-bottom: 15px;
+    }
+
+    /*Estilos para o menu hamburguer*/
+  
+  .hamburger-label {
+    width: 70px;
+    height: 58px;
+    display: block;
+    cursor: pointer;
+  }
+
+  .navButtons {
+    flex-direction: column;
+    display: none;
+}
+  
+  .hamburger-label div {
+    width: 70px;
+    height: 6px;
+    background-color: #fff;
+    position: absolute;
+  }
+  
+  .line1 {
+    transition: all .3s;
+  }
+  
+  .line2 {
+    margin: 18px 0 0 0;
+    transition: 0.3s;
+  }
+  
+  .line3 {
+    margin: 36px 0 0 0;
+    transition: 0.3s;
+  }
+  
+  #label-check:checked + .hamburger-label .line1 {
+    transform: rotate(35deg) scaleX(.55) translate(39px, -4.5px);
+    border-radius: 50px 50px 50px 0;
+  }
+  
+  #label-check:checked + .hamburger-label .line3 {
+    transform: rotate(-35deg) scaleX(.55) translate(39px, 4.5px);
+    border-radius: 0 50px 50px 50px;
+  }
+  
+  #label-check:checked + .hamburger-label .line2 {
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    width: 45px;
+  }
 }
