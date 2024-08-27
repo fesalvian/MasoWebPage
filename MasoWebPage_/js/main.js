@@ -15,7 +15,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
+    //logo redireciona pra homeScreen
+    document.querySelector('.logoMaso').addEventListener('click', function() {
+        const currentPath = window.location.pathname;
+    
+        if (!currentPath.includes('/home.html')) {
+            window.location.href = '../home.html';
+        }
+    });
+    
 
 // Carregar favoritos do localStorage
     function loadFavorites() {

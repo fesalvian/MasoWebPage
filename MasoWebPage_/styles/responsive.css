@@ -1,15 +1,24 @@
 @media (max-width: 768px) {
 
     header{
-        width: auto;
         
     }
 
+    .logoMaso {
+      width: 40%;
+      height: auto;
+    }
+
     footer{
-    display: flex;
+    display:flex;
     flex-direction: column;    
     align-items: center;
-    padding: 10px;
+    text-align: center;
+    }
+
+    .example-2{
+      gap: 5%;
+      padding-left: 0%;
     }
 
     .catalog {
@@ -33,7 +42,18 @@
 
 .card{
     display: flex;
-    flex-direction: column;
+    width: 100%;
+    height: 200px;
+    margin-bottom: 20px;
+    border-color: aliceblue;
+    border-style:groove;
+}
+
+.containerSection{
+  display: inline-block;
+  width: 100%;
+  height: auto;
+  flex-direction: column;
 }
 
 /* Estilo Responsivo cadastro */
@@ -57,8 +77,13 @@
   .hamburger-label {
     width: 70px;
     height: 58px;
-    display: block;
+    display: flex;
     cursor: pointer;
+  }
+
+  .perfil-icone{
+    width: 70px;
+    height: auto;
   }
 
   .navButtons {
@@ -67,7 +92,7 @@
 }
   
   .hamburger-label div {
-    width: 70px;
+    width: 50px;
     height: 6px;
     background-color: #fff;
     position: absolute;
