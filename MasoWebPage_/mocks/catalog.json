@@ -30,5 +30,21 @@
         "image":"https://th.bing.com/th/id/OIP.j6gEqX5mAJug74Q4eqExhAHaHs?rs=1&pid=ImgDetMain",
         "description":"Descrição aqui",
         "type":"Texturizado"
+    },
+    {
+        "id":5,
+        "name":"Arenito",
+        "colection":"Duratex",
+        "image":"https://th.bing.com/th/id/OIP.j6gEqX5mAJug74Q4eqExhAHaHs?rs=1&pid=ImgDetMain",
+        "description":"Descrição aqui",
+        "type":"Texturizado"
+    },
+    {
+        "id":6,
+        "name":"Areia",
+        "colection":"Guararapes",
+        "image":"https://gmad.vtexassets.com/arquivos/ids/320615/12583-0.jpg?v=637944771347570000",
+        "description":"Descrição aqui",
+        "type":"Liso"
     }
 ]

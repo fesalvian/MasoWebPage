@@ -8,23 +8,24 @@ body{
     max-width: 800px;
     display: flex;
     justify-content: center;
-    background-color: #bdbdbd;
+    background-color: #00000094;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 40px;
-    margin-top: 60px;
+    margin: 60px auto 0 auto;
 }
 
 form {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 /* Estilos dos Labels */
 label {
     margin-bottom: 8px;
     font-weight: bold;
-    color: #333;
+    color: #efefef;
     stroke: #ccc;
     
 }
