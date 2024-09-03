@@ -1,6 +1,6 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async() => {
 
-
+    const { default: filterAndSearch } = await import('./modulo.js');
 
        //pagina de favoritos funcionalidades
 

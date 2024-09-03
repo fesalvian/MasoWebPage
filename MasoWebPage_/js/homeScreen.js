@@ -1,9 +1,8 @@
 
-import filterAndSearch from  './modulo.js';
+document.addEventListener('DOMContentLoaded', async () => {
 
-document.addEventListener('DOMContentLoaded', () => {
-
-const cards = document.querySelectorAll('.card');
+    const { default: filterAndSearch } = await import('./modulo.js');
+    const cards = document.querySelectorAll('.card');
 
         //funcao de redirecionamento dos cards da home page
         cards.forEach(card => {

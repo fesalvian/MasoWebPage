@@ -209,6 +209,33 @@ h4{
   display: none;
 }
 
+.main-adm{
+  background-color: #ccc;
+  border-radius: 30px;
+  margin-top: 20px;
+  margin-inline: 20px;
+  padding: 3%;
+}
+
+#h3-adm{
+  display: flex;
+  align-items:flex-start;
+}
+
+.adm-actions{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.itens-organização{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 20px;
+  margin-left: 10%;
+}
+
 @keyframes puff-out-center {
   0% {
     transform: scale(1);

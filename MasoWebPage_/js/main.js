@@ -1,5 +1,4 @@
 
-
 document.addEventListener('DOMContentLoaded', () => {
 
     const catalogItems = document.querySelectorAll('.catalog-item');

@@ -5,7 +5,8 @@
     "Email":"felipesalviano00@hotmail.com",
     "Senha":"senhausuario123",
     "Confirm_Senha":"senhausuario123",
-    "Genero":"Masculino"
+    "Genero":"Masculino",
+    "Status":"Cliente"
 },
 {
     "id_user":2,
@@ -13,6 +14,7 @@
     "Email":"erikao@hotmail.com",
     "Senha":"senhausuario12345",
     "Confirm_Senha":"senhausuario12345",
-    "Genero":"Masculino"
+    "Genero":"Masculino",
+    "Status":"Cliente"
 }
 ]

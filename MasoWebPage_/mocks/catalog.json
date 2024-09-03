@@ -5,7 +5,8 @@
         "colection":"Arauco",
         "image":"https://images.tcdn.com.br/img/img_prod/1033321/mdf_louro_freijo_poro_2f_2750x1840x15mm_arauco_601_1_c19e80bcba589e1b569091edf9389552.jpg",
         "description":"Descrição aqui",
-        "type":"Amadeirado"
+        "type":"Amadeirado",
+        "checkboxInput":1
     },
     {
         "id":2,
@@ -13,7 +14,8 @@
         "colection":"Bernek",
         "image":"https://madmais.vteximg.com.br/arquivos/ids/155785-1000-1000/MDF-NOGAL-MALAGA-1-FACE-275X185X06MM.jpg?v=637242944375570000",
         "description":"Descrição aqui",
-        "type":"Amadeirado"
+        "type":"Amadeirado",
+        "checkboxInput":2
     },
     {
         "id":3,
@@ -21,7 +23,8 @@
         "colection":"Guararapes",
         "image":"https://gmad.vtexassets.com/arquivos/ids/320615/12583-0.jpg?v=637944771347570000",
         "description":"Descrição aqui",
-        "type":"Liso"
+        "type":"Liso",
+        "checkboxInput":3
     },
     {
         "id":4,
@@ -29,7 +32,8 @@
         "colection":"Duratex",
         "image":"https://th.bing.com/th/id/OIP.j6gEqX5mAJug74Q4eqExhAHaHs?rs=1&pid=ImgDetMain",
         "description":"Descrição aqui",
-        "type":"Texturizado"
+        "type":"Texturizado",
+        "checkboxInput":4
     },
     {
         "id":5,
@@ -37,7 +41,8 @@
         "colection":"Duratex",
         "image":"https://th.bing.com/th/id/OIP.j6gEqX5mAJug74Q4eqExhAHaHs?rs=1&pid=ImgDetMain",
         "description":"Descrição aqui",
-        "type":"Texturizado"
+        "type":"Texturizado",
+        "checkboxInput":5
     },
     {
         "id":6,
@@ -45,6 +50,7 @@
         "colection":"Guararapes",
         "image":"https://gmad.vtexassets.com/arquivos/ids/320615/12583-0.jpg?v=637944771347570000",
         "description":"Descrição aqui",
-        "type":"Liso"
+        "type":"Liso",
+        "checkboxInput":6
     }
 ]
