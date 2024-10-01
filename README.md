@@ -88,8 +88,8 @@ Este projeto está licenciado sob a MIT License.
 Contato
 Para mais informações, entre em contato:
 
-Nome: Felipe Salviano
-Email: felipesalviano00@hotmail.com
+Nome: Felipe Salviano<br>
+Email: felipesalviano00@hotmail.com<br>
 LinkedIn: [Felipe Salviano](https://www.linkedin.com/in/felipe-salviano-a9821723b/)
 
 
