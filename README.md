@@ -7,7 +7,6 @@ Bem-vindo ao Maso Web Page, um site desenvolvido para fornecer uma experiência 
 - [Sobre o Projeto](#sobre-o-projeto)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Como Rodar o Projeto](#como-rodar-o-projeto)
-- [Estrutura de Diretórios](#estrutura-de-diretórios)
 - [Funcionalidades](#funcionalidades)
 - [Contribuição](#contribuição)
 - [Licença](#licença)
@@ -39,27 +38,6 @@ cd MasoWebPage
 Abra o arquivo index.html no seu navegador:
 
 Você pode fazer isso arrastando o arquivo para o navegador ou usando um servidor local.
-
-Estrutura de Diretórios
-
-
-MasoWebPage/<br>
-├── index.html<br>
-├── home.html<br>
-├── adm.html<br>
-├── catalogo.html<br>
-├── styles/<br>
-│   ├── styles.css<br>
-│   ├── itens.css<br>
-│   ├── footer.css<br>
-│   └── responsive.css<br>
-├── js/<br>
-│   ├── main.js<br>
-│   ├── responsive.js<br>
-│   ├── homeScreen.js<br>
-│   └── modulo.js<br>
-└── img/<br>
-    └── 2.png<br>
     
 Funcionalidades
 Navegação: O site possui um menu de navegação responsivo que se adapta a diferentes tamanhos de tela.
