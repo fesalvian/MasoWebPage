@@ -83,7 +83,14 @@ git push origin minha-feature
 Abra um Pull Request.
 
 Licença
-Este projeto está licenciado sob a MIT License. Veja o arquivo LICENSE para mais detalhes.
+Este projeto está licenciado sob a MIT License. 
+
+Contato
+Para mais informações, entre em contato:
+
+Nome: Felipe Salviano
+Email: felipesalviano00@hotmail.com
+LinkedIn: [Felipe Salviano](https://www.linkedin.com/in/felipe-salviano-a9821723b/)
 
 
 
