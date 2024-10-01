@@ -43,23 +43,23 @@ Você pode fazer isso arrastando o arquivo para o navegador ou usando um servido
 Estrutura de Diretórios
 
 
-MasoWebPage/
-├── index.html
-├── home.html
-├── adm.html
-├── catalogo.html
-├── styles/
-│   ├── styles.css
-│   ├── itens.css
-│   ├── footer.css
-│   └── responsive.css
-├── js/
-│   ├── main.js
-│   ├── responsive.js
-│   ├── homeScreen.js
-│   └── modulo.js
-└── img/
-    └── 2.png
+MasoWebPage/<br>
+├── index.html<br>
+├── home.html<br>
+├── adm.html<br>
+├── catalogo.html<br>
+├── styles/<br>
+│   ├── styles.css<br>
+│   ├── itens.css<br>
+│   ├── footer.css<br>
+│   └── responsive.css<br>
+├── js/<br>
+│   ├── main.js<br>
+│   ├── responsive.js<br>
+│   ├── homeScreen.js<br>
+│   └── modulo.js<br>
+└── img/<br>
+    └── 2.png<br>
     
 Funcionalidades
 Navegação: O site possui um menu de navegação responsivo que se adapta a diferentes tamanhos de tela.
