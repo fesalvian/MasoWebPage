@@ -1,7 +1,6 @@
 @media (max-width: 768px) {
 
     header{
-        
     }
 
     .logoMaso {
@@ -76,7 +75,7 @@
   
   .hamburger-label {
     width: 70px;
-    height: 58px;
+    height: 40px;
     display: flex;
     cursor: pointer;
   }
@@ -92,7 +91,7 @@
 }
   
   .hamburger-label div {
-    width: 50px;
+    width: 70px;
     height: 6px;
     background-color: #fff;
     position: absolute;
