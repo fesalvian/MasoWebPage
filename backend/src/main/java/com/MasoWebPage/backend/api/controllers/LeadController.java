@@ -1,11 +1,13 @@
 package com.MasoWebPage.backend.api.controllers;
 
+import com.MasoWebPage.backend.api.dto.lead.LeadDTOIn;
 import com.MasoWebPage.backend.models.Favoritos;
 import com.MasoWebPage.backend.models.Lead;
 import com.MasoWebPage.backend.models.Produto;
 import com.MasoWebPage.backend.repositories.FavoritosRepository;
 import com.MasoWebPage.backend.repositories.LeadRepository;
 import com.MasoWebPage.backend.repositories.ProdutoRepository;
+import com.MasoWebPage.backend.services.LeadServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,37 +18,25 @@ import java.util.List;
 @RequestMapping("/lead")
 public class LeadController {
     @Autowired
-    private LeadRepository leadRepository;
-
-    @Autowired
-    private FavoritosRepository favoritosRepository;
-
-    @Autowired
-    private ProdutoRepository  produtoRepository;
+    private LeadServices leadServices;
     @PostMapping
-    public ResponseEntity<Lead> salvaLead(@RequestBody Lead lead){
-         leadRepository.save(lead);
-         return ResponseEntity.ok(lead);
+    public ResponseEntity<Lead> salvaLead(@RequestBody LeadDTOIn leadIn){
+        Lead lead = leadServices.salvarLead(new Lead(leadIn));
+        return ResponseEntity.ok(lead);
     }
     @GetMapping("/{email}")
     public ResponseEntity<Lead> buscaLeadPorEmail(@PathVariable String email){
-        return ResponseEntity.ok(leadRepository.findByEmail(email));
+        return ResponseEntity.ok(leadServices.buscaLeadPorEmail(email));
     }
     @GetMapping("/{email}/favoritos")
     public ResponseEntity<Lead> buscaFavoritos(@PathVariable String email){
-        Lead lead = leadRepository.findByEmail(email);
-        List<Produto> favoritos = favoritosRepository.buscaProdutosFavoritos(lead.getId());
-        lead.setFavoritos(favoritos);
-
+        Lead lead = leadServices.buscaFavoritos(email);
         return ResponseEntity.ok(lead);
     }
 
     @PostMapping("/{email}/favoritar")
     public ResponseEntity<Favoritos> favoritaProduto(@PathVariable String email, @RequestParam(name="id") Long idProduto){
-        Produto produtoBuscado = produtoRepository.getReferenceById(idProduto);
-        Lead leadBuscado = leadRepository.findByEmail(email);
-        Favoritos favoritos = new Favoritos(produtoBuscado, leadBuscado);
-        favoritosRepository.save(favoritos);
+        Favoritos favoritos  = leadServices.favoritaProduto(email, idProduto);
         return ResponseEntity.ok(favoritos);
     }
 

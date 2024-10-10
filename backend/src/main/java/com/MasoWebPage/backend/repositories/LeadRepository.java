@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LeadRepository extends JpaRepository<Lead,Long> {
     Lead findByEmail(String email);
+
+    boolean existsByEmail(String email);
 }
