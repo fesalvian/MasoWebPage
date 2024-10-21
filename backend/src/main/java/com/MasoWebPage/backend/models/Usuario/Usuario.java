@@ -1,5 +1,6 @@
 package com.MasoWebPage.backend.models.Usuario;
 
+import com.MasoWebPage.backend.api.dto.UsuarioDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -29,6 +30,11 @@ public class Usuario implements UserDetails {
         this.login = login;
         this.senha = senha;
         this.role = role;
+    }
+
+    public Usuario(UsuarioDTO usuario) {
+        this.login = usuario.login();
+        this.senha = usuario.senha();
     }
 
     @Override

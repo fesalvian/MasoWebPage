@@ -2,6 +2,7 @@ package com.MasoWebPage.backend.api.controllers;
 
 import com.MasoWebPage.backend.api.dto.TokenDTO;
 import com.MasoWebPage.backend.api.dto.UsuarioDTO;
+import com.MasoWebPage.backend.api.dto.administrador.AdministradorDTO;
 import com.MasoWebPage.backend.models.Administrador;
 import com.MasoWebPage.backend.models.Usuario.Usuario;
 import com.MasoWebPage.backend.security.TokenServices;
@@ -41,7 +42,7 @@ import org.slf4j.LoggerFactory;
 @RequestMapping("/adm")
 public class    AdministradorController {
 
-    private static final Logger logger = LoggerFactory.getLogger(AdministradorController.class);
+
 
     @Autowired
     private AdministradorService administradorService;
@@ -53,27 +54,25 @@ public class    AdministradorController {
     private TokenServices tokenServices;
 
     @PostMapping("/cadastro")
-    public ResponseEntity<Administrador> cadastro(@RequestBody Administrador dados, UriComponentsBuilder uriBuilder){
-        var administrador = administradorService.salvar(dados);
+    public ResponseEntity<Administrador> cadastro(@RequestBody @Valid AdministradorDTO dados, UriComponentsBuilder uriBuilder){
+        var administrador = administradorService.salvar(new Administrador(dados));
         var uri = uriBuilder.path("/estudante/{id}").buildAndExpand(administrador.getId()).toUri();
-        logger.info("Administrador cadastrado: {}", administrador.getUsuario().getLogin());
+
         return ResponseEntity.created(uri).body(administrador);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDTO> login(@RequestBody UsuarioDTO dados) {
+    public ResponseEntity<TokenDTO> login(@RequestBody @Valid UsuarioDTO dados) {
         try {
-            logger.info("Login attempt: {}", dados.login());
+
 
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
             Authentication authenticate = manager.authenticate(token);
 
-            logger.info("Authentication successful for user: {}", dados.login());
             String tokenJWT = tokenServices.gerarToken((Usuario) authenticate.getPrincipal());
 
             return ResponseEntity.ok(new TokenDTO(tokenJWT));
         } catch (Exception e) {
-            logger.error("Authentication failed for user: {} - Error: {}", dados.login(), e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenDTO("Falha na autenticação"));
         }
     }
