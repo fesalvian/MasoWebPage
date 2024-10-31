@@ -45,7 +45,7 @@ label {
 
 /* Estilos dos Inputs e Selects */
 input[type="text"], 
-input[type="email"], 
+input[type="login"], 
 input[type="password"],
 select {
     padding: 10px;
