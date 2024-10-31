@@ -38,6 +38,8 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers(HttpMethod.POST, "/adm/login", "/adm/cadastro")
                             .permitAll().requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/swagger-ui.html","/swagger-ui/index.html" ).permitAll()
+                            .requestMatchers(HttpMethod.POST, "/produto/**").hasRole("ADM")
                             .anyRequest().authenticated();
 
                 }).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
