@@ -77,8 +77,5 @@ public class    AdministradorController {
         }
     }
 
-    @GetMapping
-    public String busca(){
-        return "oi";
-    }
+
 }
