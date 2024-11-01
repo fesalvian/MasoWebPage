@@ -1,5 +1,5 @@
-document.getElementById('loginForm').addEventListener('sumbit', async (evento) => {
-    evento.preventDefault(); //evita sumbit padrao do form
+document.getElementById('loginForm').addEventListener('submit', async (event) => {
+    event.preventDefault(); //evita sumbit padrao do form
     console.log('botao funcionou nessa bosta');
     
 
