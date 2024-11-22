@@ -24,7 +24,7 @@ public class AdministradorService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public Administrador salvar(Administrador adm){
+    public Administrador salvar(Administrador adm) throws UsuarioException{
         valida(adm);
 
         String senhaC = encoder.encode(adm.getUsuario().getPassword());
@@ -38,7 +38,7 @@ public class AdministradorService {
 
     }
 
-    private void valida(Administrador adm){
+    private void valida(Administrador adm) throws UsuarioException{
         if(adm.getUsuario().getLogin() == null || adm.getUsuario().getSenha() == null){
             throw new UsuarioException("login ou senha nulos");
         }

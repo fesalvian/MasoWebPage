@@ -3,6 +3,7 @@ package com.MasoWebPage.backend.api.controllers;
 import com.MasoWebPage.backend.api.dto.TokenDTO;
 import com.MasoWebPage.backend.api.dto.UsuarioDTO;
 import com.MasoWebPage.backend.api.dto.administrador.AdministradorDTO;
+import com.MasoWebPage.backend.exceptions.UsuarioException;
 import com.MasoWebPage.backend.models.Administrador;
 import com.MasoWebPage.backend.models.Usuario.Usuario;
 import com.MasoWebPage.backend.security.TokenServices;
@@ -55,10 +56,15 @@ public class    AdministradorController {
 
     @PostMapping("/cadastro")
     public ResponseEntity<Administrador> cadastro(@RequestBody @Valid AdministradorDTO dados, UriComponentsBuilder uriBuilder){
-        var administrador = administradorService.salvar(new Administrador(dados));
-        var uri = uriBuilder.path("/estudante/{id}").buildAndExpand(administrador.getId()).toUri();
+      try {
+          var administrador = administradorService.salvar(new Administrador(dados));
+          var uri = uriBuilder.path("/estudante/{id}").buildAndExpand(administrador.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(administrador);
+          return ResponseEntity.created(uri).body(administrador);
+      }catch (UsuarioException e){
+          return ResponseEntity.badRequest().build();
+      }
+
     }
 
     @PostMapping("/login")
@@ -73,9 +79,8 @@ public class    AdministradorController {
 
             return ResponseEntity.ok(new TokenDTO(tokenJWT));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenDTO("Falha na autenticação"));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenDTO(e.getMessage()));
         }
     }
-
 
 }
