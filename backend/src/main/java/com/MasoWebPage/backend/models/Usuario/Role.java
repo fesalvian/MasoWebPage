@@ -1,6 +1,6 @@
 package com.MasoWebPage.backend.models.Usuario;
 
-public enum Roles {
+public enum Role {
     COMUM,
     ADM;
     @Override

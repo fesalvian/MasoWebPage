@@ -1,7 +1,6 @@
 package com.MasoWebPage.backend.models.Usuario;
 
 import com.MasoWebPage.backend.api.dto.UsuarioDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -23,9 +22,9 @@ public class Usuario implements UserDetails {
     private String _id;
     private String login;
     private String senha;
-    private Roles role;
+    private Role role;
 
-    public Usuario(String login, String senha, Roles role) {
+    public Usuario(String login, String senha, Role role) {
 
         this.login = login;
         this.senha = senha;
@@ -40,7 +39,7 @@ public class Usuario implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (role != null) {
-            return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+            return List.of(new SimpleGrantedAuthority( role.name()));
         }
         return List.of();
     }

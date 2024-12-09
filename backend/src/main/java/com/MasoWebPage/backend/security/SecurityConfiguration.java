@@ -39,7 +39,6 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                     req.requestMatchers(HttpMethod.POST, "/adm/login", "/adm/cadastro")
                             .permitAll().requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                             .requestMatchers(HttpMethod.GET,"/swagger-ui.html","/swagger-ui/index.html" ).permitAll()
-                            .requestMatchers(HttpMethod.POST, "/produto/**").hasRole("ADM")
                             .anyRequest().authenticated();
 
                 }).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
@@ -87,7 +86,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry){
          registry.addMapping("/**")
-                .allowedOrigins("http://127.0.0.1:5500")
+                .allowedOrigins("http://localhost:5500")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT")
                 .allowedHeaders("*")
                 .allowCredentials(true)

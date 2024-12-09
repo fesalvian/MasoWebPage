@@ -1,7 +1,7 @@
 package com.MasoWebPage.backend.models;
 
 import com.MasoWebPage.backend.api.dto.administrador.AdministradorDTO;
-import com.MasoWebPage.backend.models.Usuario.Roles;
+import com.MasoWebPage.backend.models.Usuario.Role;
 import com.MasoWebPage.backend.models.Usuario.Usuario;
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -28,7 +28,7 @@ public class Administrador {
     public Administrador(AdministradorDTO dados){
         this.nome = dados.nome();
         Usuario usuarioAux = new Usuario(dados.usuario());
-        usuarioAux.setRole(Roles.ADM);
+        usuarioAux.setRole(Role.ADM);
         this.usuario = usuarioAux;
     }
 }

@@ -2,15 +2,13 @@ package com.MasoWebPage.backend.services;
 
 import com.MasoWebPage.backend.exceptions.UsuarioException;
 import com.MasoWebPage.backend.models.Administrador;
-import com.MasoWebPage.backend.models.Usuario.Roles;
+import com.MasoWebPage.backend.models.Usuario.Role;
 import com.MasoWebPage.backend.models.Usuario.Usuario;
 import com.MasoWebPage.backend.repositories.AdministradorRepository;
 import com.MasoWebPage.backend.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import static org.apache.coyote.http11.Constants.a;
 
 @Service
 public class AdministradorService {
@@ -30,7 +28,7 @@ public class AdministradorService {
         String senhaC = encoder.encode(adm.getUsuario().getPassword());
 
         adm.getUsuario().setSenha(senhaC);
-        adm.getUsuario().setRole(Roles.ADM);
+        adm.getUsuario().setRole(Role.ADM);
 
         Usuario usuarioSave = usuarioRepository.save(adm.getUsuario());
         adm.setUsuario(usuarioSave);

@@ -58,7 +58,7 @@ public class    AdministradorController {
     public ResponseEntity<Administrador> cadastro(@RequestBody @Valid AdministradorDTO dados, UriComponentsBuilder uriBuilder){
       try {
           var administrador = administradorService.salvar(new Administrador(dados));
-          var uri = uriBuilder.path("/estudante/{id}").buildAndExpand(administrador.getId()).toUri();
+          var uri = uriBuilder.path("/adm/{id}").buildAndExpand(administrador.getId()).toUri();
 
           return ResponseEntity.created(uri).body(administrador);
       }catch (UsuarioException e){
