@@ -1,10 +1,13 @@
 package com.MasoWebPage.backend.services;
 
-import com.MasoWebPage.backend.api.dto.ProdutoDTO;
 import com.MasoWebPage.backend.models.Produto;
 import com.MasoWebPage.backend.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class ProdutoService {
@@ -18,4 +21,22 @@ public class ProdutoService {
     }
 
 
+    public Produto atualizar(Produto produto, String id) {
+        Optional<Produto> opt = produtoRepository.findById(id);
+        if(opt.isPresent()){
+            Produto produtoCarregado = opt.get();
+            produtoCarregado.atualiza(produto);//pensar numa forma de melhorar tal atualizacao
+            return produtoRepository.save(produtoCarregado);
+        }else{
+            throw new RuntimeException("produto nao encontrado");
+        }
+    }
+
+    public Page<Produto> buscaTodos(Pageable paginacao) {
+        return produtoRepository.findAll(paginacao);
+    }
+
+    public void deletar(String id) {
+        produtoRepository.deleteById(id);
+    }
 }

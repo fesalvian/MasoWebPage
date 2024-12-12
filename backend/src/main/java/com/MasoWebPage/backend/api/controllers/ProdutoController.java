@@ -4,15 +4,16 @@ import com.MasoWebPage.backend.api.dto.ProdutoDTO;
 import com.MasoWebPage.backend.models.Produto;
 import com.MasoWebPage.backend.services.CustomUserDetailsService;
 import com.MasoWebPage.backend.services.ProdutoService;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/produto")
@@ -24,7 +25,7 @@ public class ProdutoController {
     @Autowired
     private CustomUserDetailsService detailsService;
 
-    @SneakyThrows
+
     @PostMapping
     public ResponseEntity<ProdutoDTO> cadastrar(@RequestBody Produto produto,  UriComponentsBuilder uriBuilder) {
 
@@ -37,7 +38,32 @@ public class ProdutoController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<ProdutoDTO> atualizar(@RequestBody Produto produto,@PathVariable String id) {
 
+        if (detailsService.isADM()) {
+            Produto produtoCadastrado = produtoService.atualizar(produto, id);
+
+            return ResponseEntity.ok(new ProdutoDTO(produto));
+        }else{
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<ProdutoDTO>> buscaTodos(@PageableDefault(size = 10) Pageable paginacao){
+        Page<Produto> produtos = produtoService.buscaTodos(paginacao);
+        return ResponseEntity.ok( produtos.map(ProdutoDTO::new));
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable String id){
+        if(detailsService.isADM()){
+            produtoService.deletar(id);
+            return ResponseEntity.noContent().build();
+        }else{
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
 
 
 }

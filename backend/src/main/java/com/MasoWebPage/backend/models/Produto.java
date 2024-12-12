@@ -19,4 +19,17 @@ public class Produto {
     private String nome;
     private String cor; // conversa com felipe sobre como funciona as cores
     private String urlImagem;
+
+    public void atualiza(Produto produto) {
+        if (produto.getNome() != null && produto.getNome().trim().isBlank() == false){
+            this.nome =produto.getNome();
+        }
+        if (produto.getCor() != null && produto.getCor().trim().isBlank() == false){
+            this.cor = produto.getCor();
+        }
+        if (produto.getUrlImagem() != null && produto.getUrlImagem().trim().isBlank() == false){
+            this.urlImagem = produto.getUrlImagem();
+        }
+
+    }
 }

@@ -5,12 +5,13 @@ import com.MasoWebPage.backend.models.Produto;
 public record ProdutoDTO(
 
 
+        String id,
         String cor,
         String nome,
         String urlImagem
 ) {
         public ProdutoDTO(Produto produto){
-          this(produto.getCor(), produto.getNome(), produto.getUrlImagem());
+          this(produto.getId(), produto.getCor(), produto.getNome(), produto.getUrlImagem());
         }
 
 
