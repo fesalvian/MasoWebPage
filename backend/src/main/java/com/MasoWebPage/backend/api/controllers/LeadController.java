@@ -3,30 +3,15 @@ package com.MasoWebPage.backend.api.controllers;
 import com.MasoWebPage.backend.api.dto.TokenDTO;
 import com.MasoWebPage.backend.api.dto.UsuarioDTO;
 import com.MasoWebPage.backend.api.dto.administrador.AdministradorDTO;
+import com.MasoWebPage.backend.api.dto.lead.LeadDTO;
 import com.MasoWebPage.backend.exceptions.UsuarioException;
 import com.MasoWebPage.backend.models.Administrador;
+import com.MasoWebPage.backend.models.Lead;
 import com.MasoWebPage.backend.models.Usuario.Usuario;
 import com.MasoWebPage.backend.security.TokenServices;
 import com.MasoWebPage.backend.services.AdministradorService;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-
-
-
-import com.MasoWebPage.backend.api.dto.TokenDTO;
-import com.MasoWebPage.backend.api.dto.UsuarioDTO;
-import com.MasoWebPage.backend.models.Usuario.Usuario;
-import com.MasoWebPage.backend.security.TokenServices;
-import com.MasoWebPage.backend.services.AdministradorService;
+import com.MasoWebPage.backend.services.CustomUserDetailsService;
+import com.MasoWebPage.backend.services.LeadService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,17 +21,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @RestController
-@RequestMapping("/adm")
-public class AdministradorController {
-
-
-
+@RequestMapping("/lead")
+public class LeadController {
     @Autowired
-    private AdministradorService administradorService;
+    private LeadService leadService;
 
     @Autowired
     private AuthenticationManager manager;
@@ -54,16 +33,20 @@ public class AdministradorController {
     @Autowired
     private TokenServices tokenServices;
 
+    @Autowired
+    private CustomUserDetailsService detailsService;
     @PostMapping("/cadastro")
-    public ResponseEntity<Administrador> salvar(@RequestBody @Valid AdministradorDTO dados, UriComponentsBuilder uriBuilder){
-      try {
-          var administrador = administradorService.salvar(new Administrador(dados));
-          var uri = uriBuilder.path("/adm/{id}").buildAndExpand(administrador.getId()).toUri();
+    public ResponseEntity<Lead> salvar(@RequestBody @Valid LeadDTO dados, UriComponentsBuilder uriBuilder){
+        try {
 
-          return ResponseEntity.created(uri).body(administrador);
-      }catch (UsuarioException e){
-          return ResponseEntity.badRequest().build();
-      }
+
+            var lead = leadService.salvar(new Lead(null, dados.email(), new Usuario(dados.usuario())));
+            var uri = uriBuilder.path("/lead/{id}").buildAndExpand(lead.getId()).toUri();
+
+            return ResponseEntity.created(uri).body(lead);
+        }catch (UsuarioException e){
+            return ResponseEntity.badRequest().build();
+        }
 
     }
 
@@ -83,6 +66,15 @@ public class AdministradorController {
         }
     }
 
+    @PutMapping("/{login}")
+    public ResponseEntity<Lead> atualizar(LeadDTO dados, @PathVariable String login) {
+
+        if(detailsService.verificaAutenticidade(login)){
+            return ResponseEntity.ok(leadService.atualizar(dados, login));
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
 
 
 }

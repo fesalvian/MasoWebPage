@@ -13,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/produto")
 public class ProdutoController {
@@ -65,5 +63,14 @@ public class ProdutoController {
         }
     }
 
+    @GetMapping("/oi")
+    public ResponseEntity<String> oi(){
+        if (detailsService.isADM()) {
+
+            return ResponseEntity.ok("oi adm");
+        }else{
+            return ResponseEntity.ok("oi user comum");
+        }
+    }
 
 }

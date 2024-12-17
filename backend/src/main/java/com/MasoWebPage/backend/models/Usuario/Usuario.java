@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
+import javax.swing.plaf.PanelUI;
 import java.util.Collection;
 import java.util.List;
 
@@ -35,6 +36,8 @@ public class Usuario implements UserDetails {
         this.login = usuario.login();
         this.senha = usuario.senha();
     }
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

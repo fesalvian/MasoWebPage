@@ -45,4 +45,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         return !collect.isEmpty();
 
     }
+
+    public Boolean verificaAutenticidade(String login) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario principal =(Usuario) authentication.getPrincipal();
+        return principal.getLogin().equals(login);
+    }
 }
