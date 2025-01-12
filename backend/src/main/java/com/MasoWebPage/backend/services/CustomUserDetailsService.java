@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,12 +28,16 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario byLogin = usuarioRepository.getByLogin(username);
-        if (byLogin != null) {
-            return byLogin;
-        } else {
-            throw new UsernameNotFoundException("usuario nao encontrado");
+        Usuario usuario = usuarioRepository.findByLogin(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+
+
+        // Verifica se o usuário é válido antes de retornar
+        if (!usuario.isEnabled()) {
+            throw new IllegalStateException("Usuário está inválido ou desativado");
         }
+
+        return usuario;
     }
 
     public Boolean isADM() {

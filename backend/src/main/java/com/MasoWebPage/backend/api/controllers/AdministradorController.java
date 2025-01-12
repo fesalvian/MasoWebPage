@@ -66,23 +66,6 @@ public class AdministradorController {
       }
 
     }
-
-    @PostMapping("/login")
-    public ResponseEntity<TokenDTO> login(@RequestBody @Valid UsuarioDTO dados) {
-        try {
-
-
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
-            Authentication authenticate = manager.authenticate(token);
-
-            String tokenJWT = tokenServices.gerarToken((Usuario) authenticate.getPrincipal());
-
-            return ResponseEntity.ok(new TokenDTO(tokenJWT));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenDTO(e.getMessage()));
-        }
-    }
-
-
-
 }
+
+

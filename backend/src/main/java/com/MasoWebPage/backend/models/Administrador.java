@@ -31,4 +31,9 @@ public class Administrador {
         usuarioAux.setRole(Role.ADM);
         this.usuario = usuarioAux;
     }
+
+    public void atualizar(Administrador adm) {
+        if(adm.getNome() != null && !adm.nome.trim().isBlank()) this.nome = adm.getNome();
+
+    }
 }

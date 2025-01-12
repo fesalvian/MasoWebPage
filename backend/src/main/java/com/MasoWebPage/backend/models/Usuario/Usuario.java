@@ -1,6 +1,7 @@
 package com.MasoWebPage.backend.models.Usuario;
 
 import com.MasoWebPage.backend.api.dto.UsuarioDTO;
+import jakarta.validation.Valid;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@ToString
 @EqualsAndHashCode(of = {"login", "senha"})
 @NoArgsConstructor
 @Document("usuario")
@@ -24,12 +26,15 @@ public class Usuario implements UserDetails {
     private String login;
     private String senha;
     private Role role;
+    private Boolean valido;
 
-    public Usuario(String login, String senha, Role role) {
+    public Usuario(String login, String senha, Role role, Boolean valido) {
 
         this.login = login;
         this.senha = senha;
         this.role = role;
+        this.valido = valido;
+
     }
 
     public Usuario(UsuarioDTO usuario) {
@@ -76,7 +81,8 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+
+        return valido;
     }
 
 

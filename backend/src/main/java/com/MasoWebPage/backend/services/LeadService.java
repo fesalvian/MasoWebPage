@@ -1,5 +1,6 @@
 package com.MasoWebPage.backend.services;
 
+import com.MasoWebPage.backend.api.dto.UsuarioDTO;
 import com.MasoWebPage.backend.api.dto.lead.LeadDTO;
 import com.MasoWebPage.backend.exceptions.UsuarioException;
 import com.MasoWebPage.backend.models.Administrador;
@@ -45,6 +46,7 @@ public class LeadService {
         Lead leadCarregado = leadRepository.findByUsuarioLogin(login);
         leadCarregado.atualiza(dados);
         return leadRepository.save(leadCarregado);
-
     }
+
+
 }

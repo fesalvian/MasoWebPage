@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AdministradorService {
 
@@ -34,6 +36,16 @@ public class AdministradorService {
         adm.setUsuario(usuarioSave);
         return administradorRepository.save(adm);
 
+    }
+    public Administrador atualizar(Administrador adm, String login){
+        var find = administradorRepository.findByUsuarioLogin(login);
+        if(find.isPresent()){
+            Administrador administrador = find.get();
+            administrador.atualizar(adm);
+            return administradorRepository.save(administrador);
+        }else{
+            throw new UsuarioException("login nao encontrado");
+        }
     }
 
     private void valida(Administrador adm) throws UsuarioException{

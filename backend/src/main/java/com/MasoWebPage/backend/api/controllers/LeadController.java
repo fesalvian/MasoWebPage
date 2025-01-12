@@ -17,8 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 @RestController
@@ -26,17 +28,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class LeadController {
     @Autowired
     private LeadService leadService;
-
-    @Autowired
-    private AuthenticationManager manager;
-
-    @Autowired
-    private TokenServices tokenServices;
-
     @Autowired
     private CustomUserDetailsService detailsService;
     @PostMapping("/cadastro")
-    public ResponseEntity<Lead> salvar(@RequestBody @Valid LeadDTO dados, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<Lead> cadastro(@RequestBody @Valid LeadDTO dados, UriComponentsBuilder uriBuilder){
         try {
 
 
@@ -50,21 +45,6 @@ public class LeadController {
 
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<TokenDTO> login(@RequestBody @Valid UsuarioDTO dados) {
-        try {
-
-
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
-            Authentication authenticate = manager.authenticate(token);
-
-            String tokenJWT = tokenServices.gerarToken((Usuario) authenticate.getPrincipal());
-
-            return ResponseEntity.ok(new TokenDTO(tokenJWT));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenDTO(e.getMessage()));
-        }
-    }
 
     @PutMapping("/{login}")
     public ResponseEntity<Lead> atualizar(LeadDTO dados, @PathVariable String login) {
@@ -75,6 +55,7 @@ public class LeadController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
+
 
 
 }
