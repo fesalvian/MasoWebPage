@@ -6,20 +6,20 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record LeadDTO(
+public record LeadDTOSemUsuario(
         @Email
         @NotBlank
         String email,
 
         @NotBlank
-        String nome,
-        @NotNull
-        UsuarioDTO usuario
+        String nome
+
+
 
 ) {
 
 
-        public LeadDTO(Lead lead) {
-                this(lead.getEmail(), lead.getNome(), new UsuarioDTO(lead.getUsuario()));
+        public LeadDTOSemUsuario(Lead lead) {
+                this(lead.getEmail(), lead.getNome());
         }
 }

@@ -3,14 +3,17 @@ package com.MasoWebPage.backend.api.controllers;
 import com.MasoWebPage.backend.api.dto.TokenDTO;
 import com.MasoWebPage.backend.api.dto.UsuarioDTO;
 import com.MasoWebPage.backend.api.dto.administrador.AdministradorDTO;
+import com.MasoWebPage.backend.api.dto.lead.LeadDTO;
 import com.MasoWebPage.backend.exceptions.UsuarioException;
 import com.MasoWebPage.backend.models.Administrador;
+import com.MasoWebPage.backend.models.Lead;
 import com.MasoWebPage.backend.models.Usuario.Usuario;
 import com.MasoWebPage.backend.security.TokenServices;
 import com.MasoWebPage.backend.services.AdministradorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -55,7 +58,7 @@ public class AdministradorController {
     private TokenServices tokenServices;
 
     @PostMapping("/cadastro")
-    public ResponseEntity<Administrador> salvar(@RequestBody @Valid AdministradorDTO dados, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<Administrador> cadastro(@RequestBody @Valid AdministradorDTO dados, UriComponentsBuilder uriBuilder){
       try {
           var administrador = administradorService.salvar(new Administrador(dados));
           var uri = uriBuilder.path("/adm/{id}").buildAndExpand(administrador.getId()).toUri();
@@ -65,6 +68,14 @@ public class AdministradorController {
           return ResponseEntity.badRequest().build();
       }
 
+
+
+    }
+
+    @PutMapping("/{login}")
+    @PreAuthorize("#login == authentication.principal.login")
+    public ResponseEntity<Administrador> atualizar(Administrador dados, @PathVariable String login) {
+        return ResponseEntity.ok(administradorService.atualizar(dados, login));
     }
 }
 

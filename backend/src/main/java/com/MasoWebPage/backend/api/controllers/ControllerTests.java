@@ -1,6 +1,6 @@
 package com.MasoWebPage.backend.api.controllers;
 
-import com.MasoWebPage.backend.services.CustomUserDetailsService;
+import com.MasoWebPage.backend.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ControllerTests {
 
     @Autowired
-    private CustomUserDetailsService detailsService;
+    private UsuarioService detailsService;
 
 
     @GetMapping

@@ -40,6 +40,7 @@ public class Usuario implements UserDetails {
     public Usuario(UsuarioDTO usuario) {
         this.login = usuario.login();
         this.senha = usuario.senha();
+        this.valido = usuario.valido(); // a validacao deve seguir outro passo a passo
     }
 
 

@@ -15,12 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class UsuarioService implements UserDetailsService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -40,20 +37,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         return usuario;
     }
 
-    public Boolean isADM() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-
-        List<? extends GrantedAuthority> collect = authorities.stream().filter(a -> a.toString() == Role.ADM.toString()).toList();
-
-
-        return !collect.isEmpty();
-
-    }
-
-    public Boolean verificaAutenticidade(String login) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Usuario principal =(Usuario) authentication.getPrincipal();
-        return principal.getLogin().equals(login);
+    public void excluisaoLogica(String login) {
+        Usuario usuario = (Usuario) loadUserByUsername(login);
+        usuario.setValido(false);
+        usuarioRepository.save(usuario);
     }
 }

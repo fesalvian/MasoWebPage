@@ -39,4 +39,8 @@ public class ProdutoService {
     public void deletar(String id) {
         produtoRepository.deleteById(id);
     }
+
+    public Produto buscaPorId(String id) {
+        return produtoRepository.findById(id).get();
+    }
 }

@@ -1,13 +1,13 @@
 package com.MasoWebPage.backend.security;
 
-import com.MasoWebPage.backend.services.CustomUserDetailsService;
+import com.MasoWebPage.backend.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -16,10 +16,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration implements WebMvcConfigurer {
 
 
@@ -27,8 +29,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     private SecurityFilter securityFilter;
 
     @Autowired
-    private CustomUserDetailsService customUserDetailsService;
-
+    private UsuarioService customUserDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -36,14 +37,15 @@ public class SecurityConfiguration implements WebMvcConfigurer {
         return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
-                    req.requestMatchers(HttpMethod.POST, "/login", "/adm/cadastro","/lead/cadastro")
-                            .permitAll().requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    req.requestMatchers(HttpMethod.POST, "/adm/cadastro","/lead/cadastro", "/lead/validacaoEmail", "/login").permitAll()
+                            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                             .requestMatchers(HttpMethod.GET,"/swagger-ui.html","/swagger-ui/index.html" ).permitAll()
                             .anyRequest().authenticated();
 
                 }).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 
 //    @Bean
 //    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
@@ -65,7 +67,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
 //}
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder, CustomUserDetailsService userDetailsService)
+    public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder, UsuarioService userDetailsService)
             throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
