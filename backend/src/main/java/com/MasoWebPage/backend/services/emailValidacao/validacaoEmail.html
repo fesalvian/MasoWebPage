@@ -3,67 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validação de Email</title>
+    <title>Redirecionamento</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
         }
-        .container {
-            background-color: #fff;
-            padding: 20px;
+
+        .botao {
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            background-color: #ff5733;
+            border: none;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
         }
-        p {
-            font-size: 18px;
+
+        .botao:hover {
+            background-color: #cc4628;
         }
     </style>
+    <script>
+        function redirecionar() {
+            window.location.href = "LINK_DE_VALIDACAO";
+        }
+    </script>
 </head>
 <body>
-<div class="container">
-    <h2>Validação de Email</h2>
-    <button id="validarButton">Validar Email</button>
-
-</div>
-
-<script>
-
-    const link = LINK_DE_VALIDACAO;
-    const lead= LEAD_DADOS;
-
-
-    function validarEmail() {
-
-        document.getElementById('mensagem').textContent = "Validando seu email, aguarde...";
-
-        fetch(link, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(lead)
-        })
-        .then(response => response.json())
-        .then(data => {
-
-            document.getElementById('mensagem').textContent = data.message;
-        })
-        .catch(error => {
-            console.error('Erro:', error);
-            document.getElementById('mensagem').textContent = "Erro ao validar o email.";
-        });
-    }
-
-
-    document.getElementById('validarButton').addEventListener('click', validarEmail);
-</script>
+<button class="botao" onclick="redirecionar()">validar</button>
 </body>
 </html>

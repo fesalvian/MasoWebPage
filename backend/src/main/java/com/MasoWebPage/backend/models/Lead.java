@@ -32,7 +32,8 @@ public class Lead {
         if(dados.nome() != null && !dados.nome().trim().isBlank()) this.nome = dados.nome();
     }
 
-    public Lead(String email, Usuario usuario){
+    public Lead(String nome, String email, Usuario usuario){
+        this.nome = nome;
         this.email = email;
         this.usuario = usuario;
     }

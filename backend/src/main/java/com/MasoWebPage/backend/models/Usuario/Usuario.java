@@ -16,7 +16,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode(of = {"login", "senha"})
 @NoArgsConstructor
 @Document("usuario")
@@ -29,21 +28,16 @@ public class Usuario implements UserDetails {
     private Boolean valido;
 
     public Usuario(String login, String senha, Role role, Boolean valido) {
-
         this.login = login;
         this.senha = senha;
         this.role = role;
         this.valido = valido;
-
     }
 
     public Usuario(UsuarioDTO usuario) {
         this.login = usuario.login();
         this.senha = usuario.senha();
-        this.valido = usuario.valido(); // a validacao deve seguir outro passo a passo
     }
-
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -82,7 +76,6 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-
         return valido;
     }
 

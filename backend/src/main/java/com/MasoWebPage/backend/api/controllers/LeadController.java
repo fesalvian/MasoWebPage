@@ -36,10 +36,9 @@ public class LeadController {
     @PostMapping("/cadastro")
     public ResponseEntity<Map> cadastro(@RequestBody @Valid LeadDTO dados, UriComponentsBuilder uriBuilder){
         try {
-            var lead =  new Lead(dados.email(), new Usuario(dados.usuario()));
-            lead.geraTokenValidacao();
 
-            var leadSalvo = leadService.salvar(lead);
+
+            var lead = leadService.salvar(dados);
 
             var uri = uriBuilder.path("/lead/{id}").buildAndExpand(lead.getId()).toUri();
             HashMap<String, String> response = new HashMap<>();
@@ -61,11 +60,10 @@ public class LeadController {
             return ResponseEntity.ok(leadService.atualizar(dados, login));
     }
 
-    @PostMapping("/validacaoEmail")
-    public  ResponseEntity<TokenDTO> validarEmail(@RequestParam("token") String token) {
-        System.out.println("chegamos aqui");
-        Lead lead = leadService.validarEmail(token);
-        return usuarioController.login(new UsuarioDTO(lead.getUsuario()));
+    @PostMapping("/validarEmail")
+    public  ResponseEntity validarEmail(@RequestBody String token) {
+        leadService.validarEmail(token);
+        return ResponseEntity.ok().build();
     }
 
 }

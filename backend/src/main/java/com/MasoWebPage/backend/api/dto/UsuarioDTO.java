@@ -8,11 +8,10 @@ public record UsuarioDTO(
         @NotBlank
         String login,
         @NotBlank
-        String senha,
-        @NotNull
-        Boolean valido
+        String senha
+
 ) {
     public UsuarioDTO(Usuario usuario) {
-        this(usuario.getLogin(), usuario.getPassword(), usuario.getValido());
+        this(usuario.getLogin(), usuario.getPassword());
     }
 }
