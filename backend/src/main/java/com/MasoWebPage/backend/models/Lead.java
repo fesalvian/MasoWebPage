@@ -2,15 +2,17 @@ package com.MasoWebPage.backend.models;
 
 import com.MasoWebPage.backend.api.dto.lead.LeadDTO;
 import com.MasoWebPage.backend.models.Usuario.Usuario;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Document("lead")
@@ -25,6 +27,10 @@ public class Lead {
     private String email;
     @Field("usuario")
     private Usuario usuario;
+
+    @DBRef
+    private List<Produto> produtosFavoritos = new ArrayList<>();
+
     private String tokenDeValidacao;
     private LocalDateTime tokenExpiracao;
     public void atualiza(LeadDTO dados) {
@@ -45,5 +51,9 @@ public class Lead {
 
     public boolean isTokenValido() {
         return this.tokenDeValidacao != null && LocalDateTime.now().isBefore(this.tokenExpiracao);
+    }
+
+    public void addProduto(Produto produto) {
+        this.produtosFavoritos.add(produto);
     }
 }

@@ -26,4 +26,10 @@ public class AuthUtil {
 
         return !collect.isEmpty();
     }
+    public Boolean notADM() {
+        Collection<? extends GrantedAuthority> authorities = getAuthenticaion().getAuthorities();
+        List<? extends GrantedAuthority> collect = authorities.stream().filter(a -> a.toString() == Role.ADM.toString()).toList();
+
+        return collect.isEmpty();
+    }
 }

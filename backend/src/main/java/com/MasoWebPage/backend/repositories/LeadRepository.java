@@ -11,4 +11,6 @@ public interface LeadRepository extends MongoRepository<Lead,String> {
     Lead findByUsuarioLogin(String login);
 
     Optional<Lead> findBytokenDeValidacao(String token);
+
+    Optional<Lead>  findByUsuarioId(String leadId);
 }

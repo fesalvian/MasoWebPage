@@ -1,10 +1,13 @@
 package com.MasoWebPage.backend.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
 import lombok.*;
+
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter//{
 @Setter//       anotacoes do lombok sao apenas para simplificar codigo, nao afeta comportamento!!!!!!
@@ -19,7 +22,8 @@ public class Produto {
     private String nome;
     private String cor; // conversa com felipe sobre como funciona as cores
     private String urlImagem;
-
+    @DBRef
+    private List<Lead> leads  = new ArrayList<>();
     public void atualiza(Produto produto) {
         if (produto.getNome() != null && produto.getNome().trim().isBlank() == false){
             this.nome =produto.getNome();
@@ -31,5 +35,8 @@ public class Produto {
             this.urlImagem = produto.getUrlImagem();
         }
 
+    }
+    public void addLead(Lead lead){
+        leads.add(lead);
     }
 }
