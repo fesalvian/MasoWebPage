@@ -24,6 +24,8 @@ public class Produto {
     private String urlImagem;
     @DBRef
     private List<Lead> leads  = new ArrayList<>();
+
+
     public void atualiza(Produto produto) {
         if (produto.getNome() != null && produto.getNome().trim().isBlank() == false){
             this.nome =produto.getNome();

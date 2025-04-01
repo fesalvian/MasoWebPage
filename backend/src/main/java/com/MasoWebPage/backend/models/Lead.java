@@ -25,7 +25,8 @@ public class Lead {
     private String id;
     private String nome;
     private String email;
-    @Field("usuario")
+    @Field("usuario_id")
+    @DBRef
     private Usuario usuario;
 
     @DBRef

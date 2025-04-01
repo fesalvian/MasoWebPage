@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotNull;
 public record AdministradorDTO(
         @NotBlank
         String nome,
+        @NotBlank
+        String cpf,
         @NotNull
         UsuarioDTO usuario
 

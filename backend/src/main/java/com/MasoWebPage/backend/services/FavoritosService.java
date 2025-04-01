@@ -2,12 +2,15 @@ package com.MasoWebPage.backend.services;
 
 import com.MasoWebPage.backend.models.Lead;
 import com.MasoWebPage.backend.models.Produto;
+import com.MasoWebPage.backend.models.Usuario.Usuario;
 import com.MasoWebPage.backend.repositories.LeadRepository;
 import com.MasoWebPage.backend.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -28,5 +31,21 @@ public class FavoritosService {
 
 
 
+    }
+
+    public List<Produto> buscaFavoritos(Usuario usuario) {
+        Lead lead = leadRepository.findByUsuarioId(usuario.getId()).get();
+        List<String> IDs = lead.getProdutosFavoritos().stream().map(produto -> produto.getId()).collect(Collectors.toList());
+        List<Produto> produtos = produtoRepository.findAllById(IDs);
+
+        return produtos;
+    }
+
+    public List<Lead> listaDeLeadsInterressados(String id) {
+        Produto produto = produtoRepository.findById(id).get();
+        List<String> IDs = produto.getLeads().stream().map(lead -> lead.getId()).collect(Collectors.toList());
+        List<Lead> leads = leadRepository.findAllById(IDs);
+
+        return leads;
     }
 }

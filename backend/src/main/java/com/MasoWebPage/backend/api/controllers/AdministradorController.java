@@ -58,6 +58,7 @@ public class AdministradorController {
     private TokenServices tokenServices;
 
     @PostMapping("/cadastro")
+    @PreAuthorize("@AuthUtil.isADM()")
     public ResponseEntity<Administrador> cadastro(@RequestBody @Valid AdministradorDTO dados, UriComponentsBuilder uriBuilder){
       try {
           var administrador = administradorService.salvar(new Administrador(dados));
@@ -66,8 +67,9 @@ public class AdministradorController {
           return ResponseEntity.created(uri).body(administrador);
       }catch (UsuarioException e){
           return ResponseEntity.badRequest().build();
+      } catch (Exception e) {
+          throw new RuntimeException(e);
       }
-
 
 
     }
@@ -75,8 +77,13 @@ public class AdministradorController {
     @PutMapping("/{login}")
     @PreAuthorize("#login == authentication.principal.login")
     public ResponseEntity<Administrador> atualizar(Administrador dados, @PathVariable String login) {
-        return ResponseEntity.ok(administradorService.atualizar(dados, login));
+        try {
+            return ResponseEntity.ok(administradorService.atualizar(dados, login));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
+
 }
 
 

@@ -32,12 +32,14 @@ public class AdministradorService {
         adm.getUsuario().setSenha(senhaC);
         adm.getUsuario().setRole(Role.ADM);
 
-        Usuario usuarioSave = usuarioRepository.save(adm.getUsuario());
+        Usuario usuario = adm.getUsuario();
+        usuario.setValido(true);
+        Usuario usuarioSave = usuarioRepository.save(usuario);
         adm.setUsuario(usuarioSave);
         return administradorRepository.save(adm);
 
     }
-    public Administrador atualizar(Administrador adm, String login){
+    public Administrador atualizar(Administrador adm, String login) throws Exception {
         var find = administradorRepository.findByUsuarioLogin(login);
         if(find.isPresent()){
             Administrador administrador = find.get();
