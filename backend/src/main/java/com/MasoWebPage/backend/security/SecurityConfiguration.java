@@ -86,14 +86,12 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     }
 
     @Override
-    public void addCorsMappings(CorsRegistry registry){
-         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5500")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT")
-                .allowedHeaders("*")
-                .allowCredentials(true)
-                .maxAge(3600);
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*") // Permite qualquer origem
+                .allowedMethods("*") // Permite todos os métodos
+                .allowedHeaders("*") // Permite todos os headers
+                .maxAge(3600); // Cache das permissões
     }
-
 
 }
