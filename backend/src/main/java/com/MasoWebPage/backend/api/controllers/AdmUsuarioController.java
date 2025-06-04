@@ -17,9 +17,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class UsuarioController {
-    @Autowired
-    private UsuarioService usuarioService;
+@RequestMapping("/adm")
+public class AdmUsuarioController {
+
     @Autowired
     private AuthenticationManager manager;
 
@@ -41,10 +41,5 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenDTO(e.getMessage()));
         }
     }
-    @DeleteMapping("/{login}")
-    @PreAuthorize("#login == authentication.principal.login")
-    public ResponseEntity exclusaoLogica(@PathVariable String login){
-        usuarioService.excluisaoLogica(login);
-        return ResponseEntity.noContent().build();
-    }
+
 }

@@ -3,6 +3,7 @@ package com.MasoWebPage.backend.repositories;
 import com.MasoWebPage.backend.models.Administrador;
 import com.MasoWebPage.backend.models.Usuario.Usuario;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -14,5 +15,6 @@ public interface UsuarioRepository extends MongoRepository<Usuario,String> {
 
     Optional<Usuario> findByLogin(String login);
 
-    Optional<Usuario> findByLoginAndSenha(String username);
+
+
 }

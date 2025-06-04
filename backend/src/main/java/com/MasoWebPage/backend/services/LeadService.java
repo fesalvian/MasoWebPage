@@ -1,16 +1,17 @@
 package com.MasoWebPage.backend.services;
 
 import com.MasoWebPage.backend.api.dto.lead.LeadDTO;
-import com.MasoWebPage.backend.api.dto.lead.LeadDTOSemUsuario;
+import com.MasoWebPage.backend.api.dto.lead.LeadDTOAtualizacao;
 import com.MasoWebPage.backend.exceptions.UsuarioException;
 import com.MasoWebPage.backend.models.Lead;
-import com.MasoWebPage.backend.models.Usuario.Role;
 import com.MasoWebPage.backend.models.Usuario.Usuario;
 import com.MasoWebPage.backend.repositories.LeadRepository;
 import com.MasoWebPage.backend.repositories.UsuarioRepository;
 import com.MasoWebPage.backend.services.emailValidacao.EmailValidacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,39 +20,27 @@ import java.util.Optional;
 public class LeadService {
     @Autowired
     private LeadRepository leadRepository;
-    @Autowired
-    private BCryptPasswordEncoder encoder;
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+
 
     @Autowired
     private EmailValidacaoService emailValidacaoService;
 
 
-    public  Lead salvar( LeadDTO dados) throws UsuarioException {
-        var usuarioDto = dados.usuario();
-
-        String encode = encoder.encode(usuarioDto.senha());
-
-        Usuario usuario = new Usuario(usuarioDto.login(), encode, Role.COMUM, false);
-        var lead =  new Lead();
-
+    public  Lead salvar(LeadDTO dados) throws UsuarioException {
+        Lead lead = new Lead();
         lead.setNome(dados.nome());
         lead.setEmail(dados.email());
         lead.geraTokenValidacao();
-
-
-
-        Usuario usuarioSave = usuarioRepository.save(usuario);
-
-        lead.setUsuario(usuarioSave);
-
+        lead.setValido(false);
+        Lead leadSalvo;
         //salva lead no banco
-        Lead leadSalvo = leadRepository.save(lead);
-
+        if(!leadRepository.existsByEmail(lead.getEmail())) {
+            leadSalvo = leadRepository.save(lead);
+        }else{
+            throw new UsuarioException("email existente");
+        }
         //validando email
-
-        emailValidacaoService.enviarEmailDeValidacao(lead.getTokenDeValidacao(), new LeadDTOSemUsuario(lead));
+        emailValidacaoService.enviarEmailDeValidacao(lead.getTokenDeValidacao(), new LeadDTO(lead));
 
 
         return leadSalvo;
@@ -60,8 +49,8 @@ public class LeadService {
 
 
 
-    public Lead atualizar(LeadDTO dados, String login) {
-        Lead leadCarregado = leadRepository.findByUsuarioLogin(login);
+    public Lead atualizar(LeadDTOAtualizacao dados, String email) {
+        Lead leadCarregado = leadRepository.findByEmail(email).get();
         leadCarregado.atualiza(dados);
         return leadRepository.save(leadCarregado);
     }
@@ -73,9 +62,8 @@ public class LeadService {
             Lead lead = leadOpt.get();
 
             if (lead.isTokenValido()) {
-                lead.getUsuario().setValido(true);
+                lead.setValido(true);
                 lead.setTokenDeValidacao(null);
-                usuarioRepository.save(lead.getUsuario());
                 leadRepository.save(lead);
                 return lead;
             }else{
@@ -86,5 +74,6 @@ public class LeadService {
         }
 
     }
+
 
 }

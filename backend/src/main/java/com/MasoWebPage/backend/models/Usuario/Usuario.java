@@ -11,8 +11,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 
 import javax.swing.plaf.PanelUI;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Getter
 @Setter
@@ -24,13 +27,12 @@ public class Usuario implements UserDetails {
     private String id;
     private String login;
     private String senha;
-    private Role role;
+    private ArrayList<Role> roles = new ArrayList<>();
     private Boolean valido;
 
-    public Usuario(String login, String senha, Role role, Boolean valido) {
+    public Usuario(String login, String senha, Boolean valido) {
         this.login = login;
         this.senha = senha;
-        this.role = role;
         this.valido = valido;
     }
 
@@ -39,10 +41,14 @@ public class Usuario implements UserDetails {
         this.senha = usuario.senha();
     }
 
-    @Override
+    public void addRole(Role role){
+        this.roles.add(role);
+    }
+@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (role != null) {
-            return List.of(new SimpleGrantedAuthority( role.name()));
+        if (roles != null) {
+            List<SimpleGrantedAuthority> rolesList = roles.stream().map(role -> new SimpleGrantedAuthority(role.name())).toList();
+            return rolesList;
         }
         return List.of();
     }

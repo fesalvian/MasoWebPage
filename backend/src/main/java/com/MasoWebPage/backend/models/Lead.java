@@ -1,17 +1,24 @@
 package com.MasoWebPage.backend.models;
 
 import com.MasoWebPage.backend.api.dto.lead.LeadDTO;
+import com.MasoWebPage.backend.api.dto.lead.LeadDTOAtualizacao;
+import com.MasoWebPage.backend.models.Usuario.Role;
 import com.MasoWebPage.backend.models.Usuario.Usuario;
+import com.MasoWebPage.backend.services.EmailService;
+import com.MasoWebPage.backend.services.emailValidacao.EmailValidacaoService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,32 +26,36 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Lead {
+public class Lead implements UserDetails {
 
     @Id
     private String id;
     private String nome;
     private String email;
-    @Field("usuario_id")
-    @DBRef
-    private Usuario usuario;
-
     @DBRef
     private List<Produto> produtosFavoritos = new ArrayList<>();
-
     private String tokenDeValidacao;
     private LocalDateTime tokenExpiracao;
-    public void atualiza(LeadDTO dados) {
-        if(dados.email() != null && !dados.email().trim().isBlank()) this.email = dados.email();
-        if(dados.nome() != null && !dados.nome().trim().isBlank()) this.nome = dados.nome();
+    private Boolean valido;
+
+    public void atualiza(LeadDTOAtualizacao dados) {
+
+        if (dados.nome() != null && !dados.nome().trim().isBlank()) this.nome = dados.nome();
+        if (dados.email() != null && !dados.email().trim().isBlank()) {
+            this.email = dados.email();
+            this.valido = false;
+            geraTokenValidacao();
+            new EmailValidacaoService().enviarEmailDeValidacao(this.tokenDeValidacao, new LeadDTO(dados.email(),this.nome));
+        }
     }
 
-    public Lead(String nome, String email, Usuario usuario){
+    public Lead(String nome, String email) {
         this.nome = nome;
         this.email = email;
-        this.usuario = usuario;
+
     }
-    public void geraTokenValidacao(){
+
+    public void geraTokenValidacao() {
         this.tokenDeValidacao = UUID.randomUUID().toString();
         this.tokenExpiracao = LocalDateTime.now().plusHours(24); // E
     }
@@ -56,5 +67,21 @@ public class Lead {
 
     public void addProduto(Produto produto) {
         this.produtosFavoritos.add(produto);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+       return new ArrayList<>(){{{
+           new SimpleGrantedAuthority(Role.LEAD.name());
+       }}};
+    }
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 }

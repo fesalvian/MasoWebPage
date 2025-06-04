@@ -20,7 +20,7 @@ public class FavoritosService {
     @Autowired
     private ProdutoRepository produtoRepository;
     public void favoritar(String leadId, String produtoId) {
-        Optional<Lead> byUsuarioId = leadRepository.findByUsuarioId(leadId);
+        Optional<Lead> byUsuarioId = leadRepository.findById(leadId);
         Optional<Produto> byId = produtoRepository.findById(produtoId);
         Produto produto = byId.get();
         Lead lead = byUsuarioId.get();
@@ -33,8 +33,8 @@ public class FavoritosService {
 
     }
 
-    public List<Produto> buscaFavoritos(Usuario usuario) {
-        Lead lead = leadRepository.findByUsuarioId(usuario.getId()).get();
+    public List<Produto> buscaFavoritos(String email) {
+        Lead lead =  leadRepository.findByEmail(email).get();
         List<String> IDs = lead.getProdutosFavoritos().stream().map(produto -> produto.getId()).collect(Collectors.toList());
         List<Produto> produtos = produtoRepository.findAllById(IDs);
 

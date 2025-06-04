@@ -2,7 +2,6 @@ package com.MasoWebPage.backend.api.controllers;
 
 import com.MasoWebPage.backend.models.Lead;
 import com.MasoWebPage.backend.models.Produto;
-import com.MasoWebPage.backend.models.Usuario.Role;
 import com.MasoWebPage.backend.models.Usuario.Usuario;
 import com.MasoWebPage.backend.services.FavoritosService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/favoritos")
-public class FavoritarController {
+public class FavoritoController {
 
     @Autowired
     private FavoritosService favoritosService;
@@ -30,14 +29,8 @@ public class FavoritarController {
     @GetMapping
     @PreAuthorize("@AuthUtil.notADM()")
     public ResponseEntity favoritosDoLead(@AuthenticationPrincipal Usuario usuario){
-        List<Produto> favoritos = favoritosService.buscaFavoritos(usuario);
+        List<Produto> favoritos = favoritosService.buscaFavoritos(usuario.getLogin());
         return ResponseEntity.ok(favoritos);
     }
 
-    @GetMapping("/{id}")
-    @PreAuthorize("@AuthUtil.isADM()")
-    public ResponseEntity listaDeLeadsInteressados(@PathVariable String id){
-        List<Lead> leads = favoritosService.listaDeLeadsInterressados(id);
-        return  ResponseEntity.ok(leads);
-    }
 }

@@ -20,7 +20,7 @@ public class Produto {
     @Id
     private String id;
     private String nome;
-    private String cor; // conversa com felipe sobre como funciona as cores
+    private String cor;
     private String urlImagem;
     @DBRef
     private List<Lead> leads  = new ArrayList<>();

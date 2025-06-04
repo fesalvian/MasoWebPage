@@ -1,5 +1,6 @@
 package com.MasoWebPage.backend.security;
 
+import com.MasoWebPage.backend.services.LeadUserDetailsService;
 import com.MasoWebPage.backend.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -29,7 +29,10 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     private SecurityFilter securityFilter;
 
     @Autowired
+    private LeadAuthProvider leadAuthProvider;
+    @Autowired
     private UsuarioService customUserDetailsService;
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,34 +40,13 @@ public class SecurityConfiguration implements WebMvcConfigurer {
         return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
-                    req.requestMatchers(HttpMethod.POST, "/adm/cadastro","/lead/cadastro", "/lead/validarEmail", "/login").permitAll()
-                            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                            .requestMatchers(HttpMethod.GET,"/swagger-ui.html","/swagger-ui/index.html" ).permitAll()
-                            .anyRequest().authenticated();
-
+                    req.requestMatchers(HttpMethod.POST, "/restrito/**").authenticated()
+                            .requestMatchers(HttpMethod.POST, "/lead/login").permitAll()
+                            .anyRequest().permitAll();
                 }).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
-
-//    @Bean
-//    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-//        AuthenticationManagerBuilder authenticationManagerBuilder =
-//                http.getSharedObject(AuthenticationManagerBuilder.class);
-//
-//        // Configure o UserDetailsService e PasswordEncoder
-//        authenticationManagerBuilder
-//                .userDetailsService(customUserDetailsService)
-//                .passwordEncoder(bCryptPasswordEncoder()); // Use a implementação do UserDetailsService
-//        // Defina o PasswordEncoder
-//
-//
-//        return authenticationManagerBuilder.build(); // Construa e retorne o AuthenticationManager
-//    }
-//@Bean
-//public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-//    return authenticationConfiguration.getAuthenticationManager();
-//}
 
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder, UsuarioService userDetailsService)
@@ -73,11 +55,12 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 http.getSharedObject(AuthenticationManagerBuilder.class);
 
         authenticationManagerBuilder
-                .userDetailsService(userDetailsService)
+                .authenticationProvider(leadAuthProvider) // 1º: Lead
+                .userDetailsService(userDetailsService)       // 2º: Admin (via login/senha)
                 .passwordEncoder(passwordEncoder);
-
         return authenticationManagerBuilder.build();
     }
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();

@@ -7,10 +7,15 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface LeadRepository extends MongoRepository<Lead,String> {
-    Lead findByUsuarioLogin(String login);
+public interface LeadRepository extends  MongoRepository<Lead,String> {
 
     Optional<Lead> findBytokenDeValidacao(String token);
 
-    Optional<Lead>  findByUsuarioId(String leadId);
+
+    Optional<Lead> findByEmail(String email);
+
+
+    Boolean existsByEmail(String email);
+
+
 }

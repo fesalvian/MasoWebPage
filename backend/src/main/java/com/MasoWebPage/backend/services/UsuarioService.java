@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioService implements UserDetailsService {
@@ -25,21 +26,18 @@ public class UsuarioService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByLogin(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
-
-
-        // Verifica se o usuário é válido antes de retornar
-        if (!usuario.isEnabled()) {
-            throw new IllegalStateException("Usuário está inválido ou desativado");
+        Optional<Usuario> opt = usuarioRepository.findByLogin(username);
+        Usuario usuario;
+        if(opt.isPresent()){
+            usuario = opt.get();
+            return usuario;
+        }else {
+            usuario = null;
+            return usuario;
         }
 
-        return usuario;
+
     }
 
-    public void excluisaoLogica(String login) {
-        Usuario usuario = (Usuario) loadUserByUsername(login);
-        usuario.setValido(false);
-        usuarioRepository.save(usuario);
-    }
+
 }

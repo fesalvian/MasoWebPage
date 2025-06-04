@@ -1,25 +1,21 @@
 package com.MasoWebPage.backend.api.dto.lead;
 
-import com.MasoWebPage.backend.api.dto.UsuarioDTO;
 import com.MasoWebPage.backend.models.Lead;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
-public record LeadDTOSemUsuario(
-        @Email
-        @NotBlank
+public record LeadDTOAtualizacao(
+
         String email,
 
-        @NotBlank
-        String nome
 
+        String nome
 
 
 ) {
 
 
-        public LeadDTOSemUsuario(Lead lead) {
+        public LeadDTOAtualizacao(Lead lead) {
                 this(lead.getEmail(), lead.getNome());
         }
 }

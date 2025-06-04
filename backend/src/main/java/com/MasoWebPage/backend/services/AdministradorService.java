@@ -1,5 +1,6 @@
 package com.MasoWebPage.backend.services;
 
+import com.MasoWebPage.backend.api.dto.administrador.AdministradorAtualizarCpfNomeDTO;
 import com.MasoWebPage.backend.exceptions.UsuarioException;
 import com.MasoWebPage.backend.models.Administrador;
 import com.MasoWebPage.backend.models.Usuario.Role;
@@ -30,7 +31,8 @@ public class AdministradorService {
         String senhaC = encoder.encode(adm.getUsuario().getPassword());
 
         adm.getUsuario().setSenha(senhaC);
-        adm.getUsuario().setRole(Role.ADM);
+
+        adm.getUsuario().addRole(Role.ADM);
 
         Usuario usuario = adm.getUsuario();
         usuario.setValido(true);
@@ -39,7 +41,7 @@ public class AdministradorService {
         return administradorRepository.save(adm);
 
     }
-    public Administrador atualizar(Administrador adm, String login) throws Exception {
+    public Administrador atualizar(AdministradorAtualizarCpfNomeDTO adm, String login) throws Exception {
         var find = administradorRepository.findByUsuarioLogin(login);
         if(find.isPresent()){
             Administrador administrador = find.get();
@@ -54,5 +56,11 @@ public class AdministradorService {
         if(adm.getUsuario().getLogin() == null || adm.getUsuario().getSenha() == null){
             throw new UsuarioException("login ou senha nulos");
         }
+    }
+
+    public void excluisaoLogica(String login) {
+        Usuario byLogin = usuarioRepository.getByLogin(login);
+        byLogin.setValido(false);
+        usuarioRepository.save(byLogin);
     }
 }

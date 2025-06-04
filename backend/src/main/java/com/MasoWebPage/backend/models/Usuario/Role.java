@@ -1,7 +1,8 @@
 package com.MasoWebPage.backend.models.Usuario;
 
 public enum Role {
-    COMUM,
+
+    LEAD,
     ADM;
     @Override
     public String toString() {

@@ -12,14 +12,13 @@ public record LeadDTO(
         String email,
 
         @NotBlank
-        String nome,
-        @NotNull
-        UsuarioDTO usuario
+        String nome
+
 
 ) {
 
 
         public LeadDTO(Lead lead) {
-                this(lead.getEmail(), lead.getNome(), new UsuarioDTO(lead.getUsuario()));
+                this(lead.getEmail(), lead.getNome());
         }
 }

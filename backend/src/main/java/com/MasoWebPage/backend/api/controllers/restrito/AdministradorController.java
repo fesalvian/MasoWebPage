@@ -1,56 +1,30 @@
-package com.MasoWebPage.backend.api.controllers;
+package com.MasoWebPage.backend.api.controllers.restrito;
 
-import com.MasoWebPage.backend.api.dto.TokenDTO;
-import com.MasoWebPage.backend.api.dto.UsuarioDTO;
+import com.MasoWebPage.backend.api.dto.administrador.AdministradorAtualizarCpfNomeDTO;
 import com.MasoWebPage.backend.api.dto.administrador.AdministradorDTO;
-import com.MasoWebPage.backend.api.dto.lead.LeadDTO;
 import com.MasoWebPage.backend.exceptions.UsuarioException;
 import com.MasoWebPage.backend.models.Administrador;
-import com.MasoWebPage.backend.models.Lead;
-import com.MasoWebPage.backend.models.Usuario.Usuario;
 import com.MasoWebPage.backend.security.TokenServices;
 import com.MasoWebPage.backend.services.AdministradorService;
+import com.MasoWebPage.backend.services.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-
-
-
-import com.MasoWebPage.backend.api.dto.TokenDTO;
-import com.MasoWebPage.backend.api.dto.UsuarioDTO;
-import com.MasoWebPage.backend.models.Usuario.Usuario;
-import com.MasoWebPage.backend.security.TokenServices;
-import com.MasoWebPage.backend.services.AdministradorService;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RestController
-@RequestMapping("/adm")
+@RequestMapping("/restrito")
 public class AdministradorController {
 
 
 
     @Autowired
     private AdministradorService administradorService;
-
+    @Autowired
+    private UsuarioService usuarioService;
     @Autowired
     private AuthenticationManager manager;
 
@@ -76,12 +50,18 @@ public class AdministradorController {
 
     @PutMapping("/{login}")
     @PreAuthorize("#login == authentication.principal.login")
-    public ResponseEntity<Administrador> atualizar(Administrador dados, @PathVariable String login) {
+    public ResponseEntity<Administrador> atualizar(AdministradorAtualizarCpfNomeDTO dados, @PathVariable String login) {
         try {
             return ResponseEntity.ok(administradorService.atualizar(dados, login));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    @DeleteMapping("/{login}")
+    @PreAuthorize("#login == authentication.principal.login")
+    public ResponseEntity exclusaoLogica(@PathVariable String login){
+        administradorService.excluisaoLogica(login);
+        return ResponseEntity.noContent().build();
     }
 
 }

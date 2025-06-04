@@ -1,10 +1,8 @@
 package com.MasoWebPage.backend.services.emailValidacao;
 
 import com.MasoWebPage.backend.api.dto.lead.LeadDTO;
-import com.MasoWebPage.backend.api.dto.lead.LeadDTOSemUsuario;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,7 @@ public class EmailValidacaoService {
 
     @Autowired
     private ObjectMapper objectMapper;
-    public void enviarEmailDeValidacao(String tokenDeValidacao, LeadDTOSemUsuario lead) {
+    public void enviarEmailDeValidacao(String tokenDeValidacao, LeadDTO lead) {
 
         try {
             // Cria a mensagem de email
