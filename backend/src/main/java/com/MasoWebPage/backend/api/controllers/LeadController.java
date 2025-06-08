@@ -15,6 +15,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import org.bson.json.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,10 +62,10 @@ public class LeadController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDTO> login(@RequestBody String email){
+    public ResponseEntity<TokenDTO> login(@RequestBody  @Valid EmailDTO dados){
         try {
-
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email, "");
+            System.out.println(dados);
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dados.email(), "");
             Authentication authenticate = manager.authenticate(token);
             String tokenJWT = tokenServices.gerarToken((Lead) authenticate.getPrincipal());
             return ResponseEntity.ok(new TokenDTO(tokenJWT));
@@ -85,5 +86,10 @@ public class LeadController {
         leadService.validarEmail(token);
         return ResponseEntity.ok().build();
     }
+
+}
+record EmailDTO(
+        @NotBlank String email
+){
 
 }
