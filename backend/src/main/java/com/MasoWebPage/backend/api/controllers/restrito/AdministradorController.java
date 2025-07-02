@@ -17,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/restrito")
+@PreAuthorize("@AuthUtil.isADM()")
 public class AdministradorController {
 
 
@@ -32,7 +33,6 @@ public class AdministradorController {
     private TokenServices tokenServices;
 
     @PostMapping("/cadastro")
-    @PreAuthorize("@AuthUtil.isADM()")
     public ResponseEntity<Administrador> cadastro(@RequestBody @Valid AdministradorDTO dados, UriComponentsBuilder uriBuilder){
       try {
           var administrador = administradorService.salvar(new Administrador(dados));

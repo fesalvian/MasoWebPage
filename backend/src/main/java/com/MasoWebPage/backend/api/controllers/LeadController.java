@@ -1,5 +1,6 @@
 package com.MasoWebPage.backend.api.controllers;
 
+import com.MasoWebPage.backend.api.dto.EmailDTO;
 import com.MasoWebPage.backend.api.dto.TokenDTO;
 import com.MasoWebPage.backend.api.dto.UsuarioDTO;
 import com.MasoWebPage.backend.api.dto.lead.LeadDTO;
@@ -15,6 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.websocket.server.PathParam;
 import org.bson.json.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -44,6 +49,12 @@ public class LeadController {
     @Autowired
     private LeadAuthProvider manager;
 
+    @PutMapping("/{email}")
+    public ResponseEntity<LeadDTO> atualizacao(@RequestBody LeadDTOAtualizacao dados, @PathVariable String  email) {
+        return ResponseEntity.ok(new LeadDTO(leadService.atualizar(dados, email)));
+    }
+
+
     @PostMapping("/cadastro")
     public ResponseEntity<Map> cadastro(@RequestBody @Valid LeadDTO dados, UriComponentsBuilder uriBuilder){
         try {
@@ -64,7 +75,6 @@ public class LeadController {
     @PostMapping("/login")
     public ResponseEntity<TokenDTO> login(@RequestBody  @Valid EmailDTO dados){
         try {
-            System.out.println(dados);
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dados.email(), "");
             Authentication authenticate = manager.authenticate(token);
             String tokenJWT = tokenServices.gerarToken((Lead) authenticate.getPrincipal());
@@ -75,11 +85,7 @@ public class LeadController {
     }
 
 
-    @PutMapping("/{login}")
-    @PreAuthorize("#login == authentication.principal.login")
-    public ResponseEntity<Lead> atualizar(LeadDTOAtualizacao dados, @PathVariable String login) {
-            return ResponseEntity.ok(leadService.atualizar(dados, login));
-    }
+
 
     @PostMapping("/validarEmail")
     public  ResponseEntity validarEmail(@RequestBody String token) {
@@ -87,9 +93,17 @@ public class LeadController {
         return ResponseEntity.ok().build();
     }
 
-}
-record EmailDTO(
-        @NotBlank String email
-){
+    @GetMapping
+    public ResponseEntity buscaLead(@AuthenticationPrincipal UserDetails auth){
+        Lead lead = leadService.buscaLead(auth.getUsername());
+        return ResponseEntity.ok(new LeadDTO(lead));
+
+    }
+
+    @DeleteMapping
+    public ResponseEntity deletar(@AuthenticationPrincipal UserDetails auth) {
+        leadService.deletar(auth.getUsername());
+        return ResponseEntity.noContent().build();
+    }
 
 }

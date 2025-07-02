@@ -5,17 +5,18 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public record LeadDTOAtualizacao(
+        String nome,
 
-        String email,
+        String email
 
 
-        String nome
+
 
 
 ) {
 
 
         public LeadDTOAtualizacao(Lead lead) {
-                this(lead.getEmail(), lead.getNome());
+                this(lead.getNome(), lead.getEmail()     );
         }
 }

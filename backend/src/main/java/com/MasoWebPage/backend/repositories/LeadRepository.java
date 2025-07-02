@@ -14,7 +14,7 @@ public interface LeadRepository extends  MongoRepository<Lead,String> {
 
     Optional<Lead> findByEmail(String email);
 
-
+    Optional<Lead> findByValidoTrue(String email);
     Boolean existsByEmail(String email);
 
 

@@ -14,7 +14,7 @@ import java.util.List;
 
 @Component("AuthUtil")
 
-public class AuthUtil {
+public class AuthUtils {
 
     public Authentication getAuthenticaion() {
         return SecurityContextHolder.getContext().getAuthentication();

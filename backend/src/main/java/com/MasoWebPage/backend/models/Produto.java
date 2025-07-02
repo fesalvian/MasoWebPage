@@ -1,5 +1,6 @@
 package com.MasoWebPage.backend.models;
 
+import com.MasoWebPage.backend.api.dto.ProdutoDTO;
 import lombok.*;
 
 import org.springframework.data.annotation.Id;
@@ -36,6 +37,13 @@ public class Produto {
         if (produto.getUrlImagem() != null && produto.getUrlImagem().trim().isBlank() == false){
             this.urlImagem = produto.getUrlImagem();
         }
+
+    }
+
+    public Produto(ProdutoDTO dto){
+        this.nome = dto.nome();
+        this.cor = dto.cor();
+        this.urlImagem = dto.urlImagem();
 
     }
     public void addLead(Lead lead){

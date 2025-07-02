@@ -52,6 +52,7 @@ public class LeadService {
     public Lead atualizar(LeadDTOAtualizacao dados, String email) {
         Lead leadCarregado = leadRepository.findByEmail(email).get();
         leadCarregado.atualiza(dados);
+        emailValidacaoService.enviarEmailDeValidacao(leadCarregado.getTokenDeValidacao(), new LeadDTO(leadCarregado));
         return leadRepository.save(leadCarregado);
     }
 
@@ -75,5 +76,19 @@ public class LeadService {
 
     }
 
+    public Lead buscaLead(String email){
+        Lead lead = leadRepository.findByEmail(email).get();
+        if(lead.getValido()){
+            return lead;
+        }else{
+            throw new UsuarioException("usuario nao encontrado");
+        }
+    }
 
+
+    public void deletar(String username) {
+        Lead lead = leadRepository.findByEmail(username).get();
+        lead.setValido(false);
+        leadRepository.save(lead);
+    }
 }

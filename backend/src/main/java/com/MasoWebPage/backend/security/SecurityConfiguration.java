@@ -41,7 +41,6 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers(HttpMethod.POST, "/restrito/**").authenticated()
-                            .requestMatchers(HttpMethod.POST, "/lead/login").permitAll()
                             .anyRequest().permitAll();
                 }).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

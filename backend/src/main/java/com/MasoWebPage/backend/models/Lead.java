@@ -38,14 +38,16 @@ public class Lead implements UserDetails {
     private LocalDateTime tokenExpiracao;
     private Boolean valido;
 
+
+
     public void atualiza(LeadDTOAtualizacao dados) {
 
         if (dados.nome() != null && !dados.nome().trim().isBlank()) this.nome = dados.nome();
         if (dados.email() != null && !dados.email().trim().isBlank()) {
-            this.email = dados.email();
+             this.email = dados.email();
             this.valido = false;
             geraTokenValidacao();
-            new EmailValidacaoService().enviarEmailDeValidacao(this.tokenDeValidacao, new LeadDTO(dados.email(),this.nome));
+
         }
     }
 

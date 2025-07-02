@@ -30,11 +30,13 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
         String tokenJWT = getToken(request);
 
         if (tokenJWT != null) {
             try {
                 String subject = tokenServices.getSubject(tokenJWT);
+
                 UserDetails user = null;
 
                 for (UserDetailsService service : services) {

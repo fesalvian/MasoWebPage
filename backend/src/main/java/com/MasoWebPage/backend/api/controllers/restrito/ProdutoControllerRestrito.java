@@ -3,11 +3,7 @@ package com.MasoWebPage.backend.api.controllers.restrito;
 import com.MasoWebPage.backend.api.dto.ProdutoDTO;
 import com.MasoWebPage.backend.models.Produto;
 import com.MasoWebPage.backend.services.ProdutoService;
-import com.MasoWebPage.backend.utils.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +21,13 @@ public class ProdutoControllerRestrito {
 
 
     @PostMapping
-    public ResponseEntity<ProdutoDTO> cadastrar(@RequestBody Produto produto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ProdutoDTO> cadastrar(@RequestBody ProdutoDTO produto, UriComponentsBuilder uriBuilder) {
 
 
-        Produto produtoCadastrado = produtoService.cadastrar(produto);
+        Produto produtoCadastrado = produtoService.cadastrar(new Produto(produto));
         var uri = uriBuilder.path("/produto/{id}").buildAndExpand(produtoCadastrado.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new ProdutoDTO(produto));
+        return ResponseEntity.created(uri).body(new ProdutoDTO(produtoCadastrado));
 
     }
     @PutMapping("/{id}")
@@ -45,8 +41,7 @@ public class ProdutoControllerRestrito {
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable String id){
-        //produtoService.deletar(id);
-
+        produtoService.deletar(id);
         return ResponseEntity.ok(id);
     }
 
