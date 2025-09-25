@@ -23,11 +23,15 @@ public class EmailValidacaoService {
     private String remetente;
 
     @Value("${link_validacao_email}")
-
     private String linkValidacao;
 
+    @Value("${arquivo_validacao}")
+    private  String arquivo;
     @Autowired
     private ObjectMapper objectMapper;
+
+
+
     public void enviarEmailDeValidacao(String tokenDeValidacao, LeadDTO lead) {
 
         try {
@@ -40,15 +44,13 @@ public class EmailValidacaoService {
             helper.setSubject("Valide seu email");
 
             // Cria o link de validação
-            String linkEToken = linkValidacao+ tokenDeValidacao;
+            String linkEToken = linkValidacao + tokenDeValidacao;
             String htmlTemplate = toStringHtml().replace("LINK_DE_VALIDACAO" , linkEToken)
                     .replace("LEAD_DADOS", objectMapper.writeValueAsString(lead));
 
             helper.setText(htmlTemplate, true);
             mailSender.send(message);
 
-            System.out.println("link validacao " + linkEToken);
-            System.out.println(htmlTemplate);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         } catch (JsonProcessingException e) {
@@ -56,11 +58,8 @@ public class EmailValidacaoService {
         }
     }
 
-    private static String toStringHtml(){
-        String pathHtml = "C:\\Users\\ferna\\OneDrive\\Documentos\\" +
-                "a1-PROJETOS\\fatecie\\projeto-semeste-4\\MasoWebPage\\" +
-                "backend\\src\\main\\java\\com\\MasoWebPage\\backend\\services\\emailValidacao"+
-                "\\validacaoEmail.html";
+    private  String toStringHtml(){
+        String pathHtml = arquivo;
         String htmlString = "";
         File file = new File(pathHtml);
         Scanner scanner;
@@ -73,5 +72,9 @@ public class EmailValidacaoService {
             htmlString = htmlString + scanner.nextLine() + "\n";
         }
         return htmlString;
+    }
+
+    public  void setArquivo(String arquivo) {
+        this.arquivo = arquivo;
     }
 }

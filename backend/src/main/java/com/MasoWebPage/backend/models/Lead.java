@@ -1,11 +1,8 @@
 package com.MasoWebPage.backend.models;
 
-import com.MasoWebPage.backend.api.dto.lead.LeadDTO;
 import com.MasoWebPage.backend.api.dto.lead.LeadDTOAtualizacao;
 import com.MasoWebPage.backend.models.Usuario.Role;
-import com.MasoWebPage.backend.models.Usuario.Usuario;
-import com.MasoWebPage.backend.services.EmailService;
-import com.MasoWebPage.backend.services.emailValidacao.EmailValidacaoService;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -85,5 +82,9 @@ public class Lead implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+
+    public Boolean isValido(){
+        return this.valido;
     }
 }

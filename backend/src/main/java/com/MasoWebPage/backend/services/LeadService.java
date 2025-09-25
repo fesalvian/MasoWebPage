@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class LeadService {
+public class LeadService{
     @Autowired
     private LeadRepository leadRepository;
 
@@ -25,7 +25,10 @@ public class LeadService {
     @Autowired
     private EmailValidacaoService emailValidacaoService;
 
-
+    public LeadService(LeadRepository leadRepository, EmailValidacaoService emailValidacaoService){
+        this.leadRepository = leadRepository;
+        this.emailValidacaoService = emailValidacaoService;
+    }
     public  Lead salvar(LeadDTO dados) throws UsuarioException {
         Lead lead = new Lead();
         lead.setNome(dados.nome());
@@ -50,29 +53,40 @@ public class LeadService {
 
 
     public Lead atualizar(LeadDTOAtualizacao dados, String email) {
-        Lead leadCarregado = leadRepository.findByEmail(email).get();
+        Lead leadCarregado = leadRepository.findByEmail(email)
+                .orElseThrow(() -> new UsuarioException("Lead não encontrado"));
+
+        boolean emailMudou = !leadCarregado.getEmail().equals(dados.email());
+
         leadCarregado.atualiza(dados);
-        emailValidacaoService.enviarEmailDeValidacao(leadCarregado.getTokenDeValidacao(), new LeadDTO(leadCarregado));
+
+        if (emailMudou) {
+            if (leadRepository.existsByEmail(dados.email())) {
+                throw new UsuarioException("E-mail já em uso");
+            }
+            leadCarregado.geraTokenValidacao();
+            emailValidacaoService.enviarEmailDeValidacao(
+                    leadCarregado.getTokenDeValidacao(),
+                    new LeadDTO(leadCarregado)
+            );
+            leadCarregado.setValido(false);
+        }
+
         return leadRepository.save(leadCarregado);
     }
 
 
     public Lead validarEmail(String token) {
-        Optional<Lead> leadOpt = leadRepository.findBytokenDeValidacao(token);
-        if (!leadOpt.isEmpty()) {
-            Lead lead = leadOpt.get();
+        Lead lead = leadRepository.findBytokenDeValidacao(token)
+                .orElseThrow(() -> new UsuarioException("Token não encontrado"));
 
-            if (lead.isTokenValido()) {
-                lead.setValido(true);
-                lead.setTokenDeValidacao(null);
-                leadRepository.save(lead);
-                return lead;
-            }else{
-                throw new UsuarioException("Token invalido");
-            }
-        }else{
-            throw new UsuarioException("Token nao encontrado");
+        if (!lead.isTokenValido()) {
+            throw new UsuarioException("Token inválido");
         }
+
+        lead.setValido(true);
+        lead.setTokenDeValidacao(null);
+        return leadRepository.save(lead);
 
     }
 
@@ -91,4 +105,5 @@ public class LeadService {
         lead.setValido(false);
         leadRepository.save(lead);
     }
+
 }
