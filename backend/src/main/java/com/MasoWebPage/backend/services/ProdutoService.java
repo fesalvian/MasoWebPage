@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -16,7 +17,8 @@ public class ProdutoService {
     private ProdutoRepository produtoRepository;
 
     public Produto cadastrar(Produto produto){
-
+        System.out.println(produto.getUrlsImagens());
+        if (produto.getUrlsImagens() == null) produto.setUrlsImagens(new ArrayList<>());
         return produtoRepository.save(produto);
     }
 
@@ -24,6 +26,7 @@ public class ProdutoService {
     public Produto atualizar(Produto produto, String id) {
         Optional<Produto> opt = produtoRepository.findById(id);
         if(opt.isPresent()){
+
             Produto produtoCarregado = opt.get();
             produtoCarregado.atualiza(produto);//pensar numa forma de melhorar tal atualizacao
             return produtoRepository.save(produtoCarregado);

@@ -1,6 +1,6 @@
 package com.MasoWebPage.backend.utils;
 
-public class ValidaCPF {
+public class  ValidaCPF {
     // Validates if the CPF number is valid
     public static boolean isValido(String cpf) {
 

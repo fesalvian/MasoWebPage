@@ -20,13 +20,13 @@ public class AuthUtils {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
-    public Boolean isADM() {
-        Collection<? extends GrantedAuthority> authorities = getAuthenticaion().getAuthorities();
-        List<? extends GrantedAuthority> collect =authorities.stream()
-                .filter(a -> a.toString().equals(Role.ADM.toString()))
-                .toList();
+    public boolean isADM() {
 
-        return !collect.isEmpty();
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || auth.getAuthorities() == null)
+            return false;
+        return auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ADM"));
     }
     public Boolean notADM() {
         Collection<? extends GrantedAuthority> authorities = getAuthenticaion().getAuthorities();

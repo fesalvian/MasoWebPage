@@ -21,8 +21,9 @@ public class Produto {
     @Id
     private String id;
     private String nome;
-    private String cor;
-    private String urlImagem;
+    private String descricao;
+    private String colecao;
+    private List<String> urlsImagens = new ArrayList<>();
     @DBRef
     private List<Lead> leads  = new ArrayList<>();
 
@@ -31,19 +32,17 @@ public class Produto {
         if (produto.getNome() != null && produto.getNome().trim().isBlank() == false){
             this.nome =produto.getNome();
         }
-        if (produto.getCor() != null && produto.getCor().trim().isBlank() == false){
-            this.cor = produto.getCor();
+        if (produto.getColecao() != null && produto.getColecao().trim().isBlank() == false){
+            this.colecao = produto.getColecao();
         }
-        if (produto.getUrlImagem() != null && produto.getUrlImagem().trim().isBlank() == false){
-            this.urlImagem = produto.getUrlImagem();
-        }
+
 
     }
 
     public Produto(ProdutoDTO dto){
         this.nome = dto.nome();
-        this.cor = dto.cor();
-        this.urlImagem = dto.urlImagem();
+        this.colecao = dto.colecao();
+        this.urlsImagens = dto.urlsImagens ();
 
     }
     public void addLead(Lead lead){

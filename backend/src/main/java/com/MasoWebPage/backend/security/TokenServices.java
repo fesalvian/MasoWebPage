@@ -6,12 +6,15 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TokenServices {
@@ -20,9 +23,12 @@ public class TokenServices {
     private String secret;
 
     public String gerarToken(UserDetails usuario) {
+
         Algorithm algorithm = Algorithm.HMAC256(secret);
+        List<String> auth = usuario.getAuthorities().stream().map(role -> role.toString()).collect(Collectors.toList());
+
         return JWT.create().withIssuer("api-masoweb.com").withSubject(usuario.getUsername())
-                .withClaim("role",usuario.getAuthorities().stream().toList())
+                .withClaim("role", auth)
                 .withExpiresAt(dataExpiracao()).sign(algorithm);
     }
 

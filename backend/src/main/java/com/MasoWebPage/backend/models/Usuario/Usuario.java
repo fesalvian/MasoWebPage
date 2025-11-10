@@ -1,10 +1,12 @@
 package com.MasoWebPage.backend.models.Usuario;
 
 import com.MasoWebPage.backend.api.dto.UsuarioDTO;
+import com.MasoWebPage.backend.api.dto.UsuarioDTOAtualizacao;
 import jakarta.validation.Valid;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +29,8 @@ public class Usuario implements UserDetails {
     private String id;
     private String login;
     private String senha;
-    private ArrayList<Role> roles = new ArrayList<>();
+    @Field("role")
+    private ArrayList<String> roles = new ArrayList<>();
     private Boolean valido;
 
     public Usuario(String login, String senha, Boolean valido) {
@@ -41,17 +44,19 @@ public class Usuario implements UserDetails {
         this.senha = usuario.senha();
     }
 
-    public void addRole(Role role){
-        this.roles.add(role);
+    public void addRole(Role role) {
+        this.roles.add(role.name());
     }
-@Override
+
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (roles != null) {
-            List<SimpleGrantedAuthority> rolesList = roles.stream().map(role -> new SimpleGrantedAuthority(role.name())).toList();
-            return rolesList;
+            return new ArrayList<>(roles.stream().map(role -> new SimpleGrantedAuthority(role)).toList());
         }
         return List.of();
     }
+
+
 
     // Método abstrato para retornar a role
 
@@ -85,6 +90,24 @@ public class Usuario implements UserDetails {
         return valido;
     }
 
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id='" + id + '\'' +
+                ", login='" + login + '\'' +
+                ", senha='" + senha + '\'' +
+                ", roles=" + roles +
+                ", valido=" + valido +
+                '}';
+    }
 
+    public void atualiza(UsuarioDTOAtualizacao usuario) {
+        if(usuario.login() != null && !usuario.login().trim().isBlank()){
+            this.login = usuario.login();
+        }
+        if(usuario.senha() != null && !usuario.senha().trim().isBlank()){
+            this.senha = usuario.senha();
+        }
+    }
 }
 

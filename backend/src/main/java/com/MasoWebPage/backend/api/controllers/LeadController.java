@@ -2,6 +2,7 @@ package com.MasoWebPage.backend.api.controllers;
 
 import com.MasoWebPage.backend.api.dto.EmailDTO;
 import com.MasoWebPage.backend.api.dto.TokenDTO;
+import com.MasoWebPage.backend.api.dto.TokenValidaEmailDTO;
 import com.MasoWebPage.backend.api.dto.UsuarioDTO;
 import com.MasoWebPage.backend.api.dto.lead.LeadDTO;
 import com.MasoWebPage.backend.api.dto.lead.LeadDTOAtualizacao;
@@ -88,8 +89,8 @@ public class LeadController {
 
 
     @PostMapping("/validarEmail")
-    public  ResponseEntity validarEmail(@RequestBody String token) {
-        leadService.validarEmail(token);
+    public  ResponseEntity validarEmail(@RequestBody TokenValidaEmailDTO dados) {
+        leadService.validarEmail(dados.token());
         return ResponseEntity.ok().build();
     }
 

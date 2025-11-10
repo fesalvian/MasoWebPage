@@ -31,7 +31,8 @@ public class AdmUsuarioController {
     public ResponseEntity<TokenDTO> login(@RequestBody @Valid UsuarioDTO dados) {
         try {
 
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha() );
+
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
             Authentication authenticate = manager.authenticate(token);
 
             String tokenJWT = tokenServices.gerarToken((Usuario) authenticate.getPrincipal());

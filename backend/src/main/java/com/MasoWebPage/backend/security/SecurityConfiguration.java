@@ -2,6 +2,7 @@ package com.MasoWebPage.backend.security;
 
 import com.MasoWebPage.backend.services.LeadUserDetailsService;
 import com.MasoWebPage.backend.services.UsuarioService;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -75,5 +76,6 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 .allowedHeaders("*") // Permite todos os headers
                 .maxAge(3600); // Cache das permissões
     }
+
 
 }

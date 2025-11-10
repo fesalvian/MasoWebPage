@@ -1,8 +1,7 @@
 package com.MasoWebPage.backend.models;
 
-import com.MasoWebPage.backend.api.dto.administrador.AdministradorAtualizarCpfNomeDTO;
+import com.MasoWebPage.backend.api.dto.administrador.AdministradorAtualizar;
 import com.MasoWebPage.backend.api.dto.administrador.AdministradorDTO;
-import com.MasoWebPage.backend.models.Usuario.Role;
 import com.MasoWebPage.backend.models.Usuario.Usuario;
 import com.MasoWebPage.backend.utils.ValidaCPF;
 import lombok.*;
@@ -28,21 +27,36 @@ public class Administrador {
 
     public Administrador(){}
     public Administrador(AdministradorDTO dados) throws Exception {
-        if(ValidaCPF.isValido(dados.cpf())){
+        //ValidaCPF.isValido(dados.cpf())
+        if(true){
         this.nome = dados.nome();
+        this.cpf = dados.cpf();
         Usuario usuarioAux = new Usuario(dados.usuario());
-        usuarioAux.addRole(Role.ADM);
+
         this.usuario = usuarioAux;}
         else{
             throw new Exception("cpf invalido");
         }
     }
 
-    public void atualizar(AdministradorAtualizarCpfNomeDTO adm) throws Exception {
+    public void atualizar(AdministradorAtualizar adm) throws Exception {
         if(adm.nome() != null && !adm.nome().trim().isBlank()) this.nome = adm.nome();
         if(adm.cpf() != null && !adm.cpf().trim().isBlank()){
             if(ValidaCPF.isValido(adm.cpf())) this.cpf = adm.cpf();
             else throw new Exception("cpf invalido");
         }
+        if(adm.usuario() != null){
+            this.usuario.atualiza(adm.usuario());
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Administrador{" +
+                "id='" + id + '\'' +
+                ", nome='" + nome + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", usuario=" + usuario +
+                '}';
     }
 }

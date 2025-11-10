@@ -71,7 +71,7 @@ public class Lead implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
        return new ArrayList<>(){{{
-           new SimpleGrantedAuthority(Role.LEAD.name());
+           new SimpleGrantedAuthority("LEAD");
        }}};
     }
     @Override

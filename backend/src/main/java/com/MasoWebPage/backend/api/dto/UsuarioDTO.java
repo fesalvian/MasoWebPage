@@ -4,7 +4,7 @@ import com.MasoWebPage.backend.models.Usuario.Usuario;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record UsuarioDTO(
+public record   UsuarioDTO(
         @NotBlank
         String login,
         @NotBlank

@@ -1,12 +1,13 @@
 package com.MasoWebPage.backend.api.controllers.restrito;
 
-import com.MasoWebPage.backend.api.dto.administrador.AdministradorAtualizarCpfNomeDTO;
+import com.MasoWebPage.backend.api.dto.administrador.AdministradorAtualizar;
 import com.MasoWebPage.backend.api.dto.administrador.AdministradorDTO;
 import com.MasoWebPage.backend.exceptions.UsuarioException;
 import com.MasoWebPage.backend.models.Administrador;
 import com.MasoWebPage.backend.security.TokenServices;
 import com.MasoWebPage.backend.services.AdministradorService;
 import com.MasoWebPage.backend.services.UsuarioService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,7 @@ public class AdministradorController {
     @PostMapping("/cadastro")
     public ResponseEntity<Administrador> cadastro(@RequestBody @Valid AdministradorDTO dados, UriComponentsBuilder uriBuilder){
       try {
+          System.out.println("cadastro");
           var administrador = administradorService.salvar(new Administrador(dados));
           var uri = uriBuilder.path("/adm/{id}").buildAndExpand(administrador.getId()).toUri();
 
@@ -50,13 +52,12 @@ public class AdministradorController {
 
     @PutMapping("/{login}")
     @PreAuthorize("#login == authentication.principal.login")
-    public ResponseEntity<Administrador> atualizar(AdministradorAtualizarCpfNomeDTO dados, @PathVariable String login) {
-        try {
-            return ResponseEntity.ok(administradorService.atualizar(dados, login));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<Administrador> atualizar(@RequestBody String rawJson, @PathVariable String login) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        AdministradorAtualizar dados = mapper.readValue(rawJson, AdministradorAtualizar.class);
+        return ResponseEntity.ok(administradorService.atualizar(dados, login));
     }
+
     @DeleteMapping("/{login}")
     @PreAuthorize("#login == authentication.principal.login")
     public ResponseEntity exclusaoLogica(@PathVariable String login){
@@ -64,6 +65,12 @@ public class AdministradorController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping
+    public ResponseEntity<Administrador> buscaPorLogin(@RequestParam String login){
+        System.out.println(login);
+        return ResponseEntity.ok(administradorService.buscaAdmPorLogin(login));
+
+    }
 }
 
 

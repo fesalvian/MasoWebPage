@@ -28,10 +28,10 @@ public class UsuarioService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Usuario> opt = usuarioRepository.findByLogin(username);
         Usuario usuario;
-        if(opt.isPresent()){
+        if (opt.isPresent()) {
             usuario = opt.get();
             return usuario;
-        }else {
+        } else {
             usuario = null;
             return usuario;
         }
