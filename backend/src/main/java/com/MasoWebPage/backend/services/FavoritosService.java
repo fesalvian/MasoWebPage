@@ -29,7 +29,16 @@ public class FavoritosService {
         produtoRepository.save(produto);
         leadRepository.save(lead);
 
-
+    }
+    public void desfavoritar(String leadId, String produtoId) {
+        Optional<Lead> byUsuarioId = leadRepository.findById(leadId);
+        Optional<Produto> byId = produtoRepository.findById(produtoId);
+        Produto produto = byId.get();
+        Lead lead = byUsuarioId.get();
+        produto.removeLead(lead);
+        lead.removeProduto(produto); // codigo possivelmente redundante e duplicado
+        produtoRepository.save(produto);
+        leadRepository.save(lead);
 
     }
 
@@ -42,7 +51,11 @@ public class FavoritosService {
     }
 
     public List<Lead> listaDeLeadsInterressados(String id) {
+        System.out.println("id");
+        System.out.println(id);
         Produto produto = produtoRepository.findById(id).get();
+        System.out.println(produto.getNome());
+        System.out.println(produto.getLeads());
         List<String> IDs = produto.getLeads().stream().map(lead -> lead.getId()).collect(Collectors.toList());
         List<Lead> leads = leadRepository.findAllById(IDs);
 

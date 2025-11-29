@@ -21,8 +21,8 @@ public class FavoritoControllerRestrito {
     private FavoritosService favoritosService;
 
     @GetMapping("/{id}")
+    public ResponseEntity<List<Lead>> listaDeLeadsInteressados(@PathVariable String id){
 
-    public ResponseEntity listaDeLeadsInteressados(@PathVariable String id){
         List<Lead> leads = favoritosService.listaDeLeadsInterressados(id);
         return  ResponseEntity.ok(leads);
     }

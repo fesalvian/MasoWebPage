@@ -23,13 +23,19 @@ public class FavoritoController {
     private FavoritosService favoritosService;
 
     @PutMapping("/favoritar")
-    public ResponseEntity favoritar( @AuthenticationPrincipal Lead lead, @RequestParam("id") String id){
+    public ResponseEntity favoritar(  @RequestParam("id") String produtoId, @AuthenticationPrincipal Lead lead){
 
-        favoritosService.favoritar(lead.getId() , id);
+        favoritosService.favoritar(lead.getId() , produtoId);
+        return ResponseEntity.ok().build();
+    }
+    @PutMapping("/desfavoritar")
+    public ResponseEntity desfavoritar(  @RequestParam("id") String produtoId, @AuthenticationPrincipal Lead lead){
+        System.out.println(produtoId);
+        favoritosService.desfavoritar(lead.getId() , produtoId);
         return ResponseEntity.ok().build();
     }
     @GetMapping
-    public ResponseEntity favoritosDoLead(@AuthenticationPrincipal Lead lead){
+    public ResponseEntity<List<ProdutoDTO>> favoritosDoLead(@AuthenticationPrincipal Lead lead){
         List<Produto> favoritos = favoritosService.buscaFavoritos(lead.getEmail());
         List<ProdutoDTO> favoritosDto = favoritos.stream().map(ProdutoDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok(favoritosDto);

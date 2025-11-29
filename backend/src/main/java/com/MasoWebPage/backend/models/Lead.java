@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Document("lead")
 @Getter
@@ -36,12 +37,11 @@ public class Lead implements UserDetails {
     private Boolean valido;
 
 
-
     public void atualiza(LeadDTOAtualizacao dados) {
 
         if (dados.nome() != null && !dados.nome().trim().isBlank()) this.nome = dados.nome();
         if (dados.email() != null && !dados.email().trim().isBlank()) {
-             this.email = dados.email();
+            this.email = dados.email();
             this.valido = false;
             geraTokenValidacao();
 
@@ -70,10 +70,13 @@ public class Lead implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-       return new ArrayList<>(){{{
-           new SimpleGrantedAuthority("LEAD");
-       }}};
+        return new ArrayList<>() {{
+            {
+                new SimpleGrantedAuthority("LEAD");
+            }
+        }};
     }
+
     @Override
     public String getPassword() {
         return null;
@@ -84,7 +87,12 @@ public class Lead implements UserDetails {
         return email;
     }
 
-    public Boolean isValido(){
+    public Boolean isValido() {
         return this.valido;
+    }
+
+    public void removeProduto(Produto produto) {
+        this.produtosFavoritos = this.getProdutosFavoritos().stream()
+                                    .filter(p -> !p.getId().equals(produto.getId())).collect(Collectors.toList());
     }
 }

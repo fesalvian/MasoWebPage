@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter//{
 @Setter//       anotacoes do lombok sao apenas para simplificar codigo, nao afeta comportamento!!!!!!
@@ -47,5 +48,9 @@ public class Produto {
     }
     public void addLead(Lead lead){
         leads.add(lead);
+    }
+    public void removeLead(Lead lead){
+        this.leads = this.getLeads().stream().filter(l -> !l.getId().equals(lead.getId())).collect(Collectors.toList());
+
     }
 }
