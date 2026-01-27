@@ -21,6 +21,8 @@ public class Administrador {
     private String id;
     private String nome;
     private String cpf;
+    private String email;
+
     @Field("usuario_id")
     @DBRef
     private Usuario usuario;
@@ -41,6 +43,7 @@ public class Administrador {
 
     public void atualizar(AdministradorAtualizar adm) throws Exception {
         if(adm.nome() != null && !adm.nome().trim().isBlank()) this.nome = adm.nome();
+        if(adm.email() != null && !adm.email().trim().isBlank()) this.email = adm.email();
         if(adm.cpf() != null && !adm.cpf().trim().isBlank()){
             if(ValidaCPF.isValido(adm.cpf())) this.cpf = adm.cpf();
             else throw new Exception("cpf invalido");

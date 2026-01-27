@@ -52,7 +52,7 @@ public class AdministradorController {
 
     @PutMapping("/{login}")
     @PreAuthorize("#login == authentication.principal.login")
-    public ResponseEntity<Administrador> atualizar(@RequestBody String rawJson, @PathVariable String login) throws Exception {
+    public ResponseEntity<Administrador> atualizar(@RequestBody AdministradorAtualizar rawJson, @PathVariable String login) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         AdministradorAtualizar dados = mapper.readValue(rawJson, AdministradorAtualizar.class);
         return ResponseEntity.ok(administradorService.atualizar(dados, login));

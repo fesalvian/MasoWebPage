@@ -9,6 +9,8 @@ public record AdministradorAtualizar(
 
         String cpf,
 
+        String email,
+
         @JsonAlias("usuario")
         UsuarioDTOAtualizacao usuario
 ) {
