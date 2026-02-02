@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -66,10 +67,13 @@ public class AdministradorController {
     }
 
     @GetMapping
-    public ResponseEntity<Administrador> buscaPorLogin(@AuthenticationPrincipal String login){
-        System.out.println(login);
+    public ResponseEntity<Administrador> buscaPorLogin(
+            @AuthenticationPrincipal UserDetails usuario
+    ) {
+        String login = usuario.getUsername(); // ou getLogin()
         return ResponseEntity.ok(administradorService.buscaAdmPorLogin(login));
     }
+
 }
 
 
