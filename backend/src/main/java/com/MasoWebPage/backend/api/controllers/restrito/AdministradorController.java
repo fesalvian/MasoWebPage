@@ -54,7 +54,6 @@ public class AdministradorController {
     @PreAuthorize("#login == authentication.principal.login")
     public ResponseEntity<Administrador> atualizar(@RequestBody AdministradorAtualizar dados, @PathVariable String login) throws Exception {
 
-
         return ResponseEntity.ok(administradorService.atualizar(dados, login));
     }
 

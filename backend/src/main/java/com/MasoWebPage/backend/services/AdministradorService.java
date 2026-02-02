@@ -10,6 +10,7 @@ import com.MasoWebPage.backend.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AdministradorService {
@@ -43,26 +44,28 @@ public class AdministradorService {
 
     }
 
+    @Transactional
     public Administrador atualizar(AdministradorAtualizar adm, String login) throws Exception {
 
-        var usuario = usuarioRepository.findByLogin(login);
-        if (usuario.isPresent()) {
+        Usuario usuario = usuarioRepository.findByLogin(login)
+                .orElseThrow(() -> new UsuarioException("login nao encontrado"));
 
+        Administrador administrador = administradorRepository
+                .findByUsuario(usuario)
+                .orElseThrow(() -> new RuntimeException("Administrador não encontrado"));
 
-            Administrador administrador = administradorRepository.getByUsuario(usuario.get());
-            administrador.atualizar(adm);
-            if(adm.usuario() != null){
-                if (adm.usuario() != null && !adm.usuario().senha().trim().isBlank()) {
-                    String encode = encoder.encode(adm.usuario().senha());
-                    administrador.getUsuario().setSenha(encode);
-                }
-                usuarioRepository.save(administrador.getUsuario());
-            }
-            return administradorRepository.save(administrador);
-        } else {
-            throw new UsuarioException("login nao encontrado");
+        administrador.atualizar(adm);
+
+        if (adm.usuario() != null && adm.usuario().senha() != null
+                && !adm.usuario().senha().isBlank()) {
+
+            administrador.getUsuario()
+                    .setSenha(encoder.encode(adm.usuario().senha()));
         }
+
+        return administradorRepository.save(administrador);
     }
+
 
 
 

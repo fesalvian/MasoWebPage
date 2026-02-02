@@ -12,4 +12,5 @@ public interface AdministradorRepository extends MongoRepository<Administrador,S
     Administrador getByUsuario(Usuario usuario);
 
 
+    Optional<Administrador> findByUsuario(Usuario usuario);
 }
