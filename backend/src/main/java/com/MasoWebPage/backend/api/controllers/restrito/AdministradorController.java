@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -65,10 +66,9 @@ public class AdministradorController {
     }
 
     @GetMapping
-    public ResponseEntity<Administrador> buscaPorLogin(@RequestParam String login){
+    public ResponseEntity<Administrador> buscaPorLogin(@AuthenticationPrincipal String login){
         System.out.println(login);
         return ResponseEntity.ok(administradorService.buscaAdmPorLogin(login));
-
     }
 }
 
