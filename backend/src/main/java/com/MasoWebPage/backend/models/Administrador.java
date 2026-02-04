@@ -27,28 +27,31 @@ public class Administrador {
     @DBRef
     private Usuario usuario;
 
-    public Administrador(){}
+    public Administrador() {
+    }
+
     public Administrador(AdministradorDTO dados) throws Exception {
         //ValidaCPF.isValido(dados.cpf())
-        if(true){
-        this.nome = dados.nome();
-        this.cpf = dados.cpf();
-        Usuario usuarioAux = new Usuario(dados.usuario());
+        if (true) {
+            this.nome = dados.nome();
+            this.cpf = dados.cpf();
+            this.email = dados.email();
+            Usuario usuarioAux = new Usuario(dados.usuario());
 
-        this.usuario = usuarioAux;}
-        else{
+            this.usuario = usuarioAux;
+        } else {
             throw new Exception("cpf invalido");
         }
     }
 
     public void atualizar(AdministradorAtualizar adm) throws Exception {
-        if(adm.nome() != null && !adm.nome().trim().isBlank()) this.nome = adm.nome();
-        if(adm.email() != null && !adm.email().trim().isBlank()) this.email = adm.email();
-        if(adm.cpf() != null && !adm.cpf().trim().isBlank()){
-            if(ValidaCPF.isValido(adm.cpf())) this.cpf = adm.cpf();
+        if (adm.nome() != null && !adm.nome().trim().isBlank()) this.nome = adm.nome();
+        if (adm.email() != null && !adm.email().trim().isBlank()) this.email = adm.email();
+        if (adm.cpf() != null && !adm.cpf().trim().isBlank()) {
+            if (ValidaCPF.isValido(adm.cpf())) this.cpf = adm.cpf();
             else throw new Exception("cpf invalido");
         }
-        if(adm.usuario() != null){
+        if (adm.usuario() != null) {
             this.usuario.atualiza(adm.usuario());
         }
     }
