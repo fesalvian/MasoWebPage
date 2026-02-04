@@ -13,4 +13,10 @@ public interface AdministradorRepository extends MongoRepository<Administrador,S
 
 
     Optional<Administrador> findByUsuario(Usuario usuario);
+
+    // Mudar para Optional
+    Optional<Administrador> findByCpf(String cpf);
+
+    // Mantém o booleano se precisar
+    boolean existsByCpf(String cpf);
 }

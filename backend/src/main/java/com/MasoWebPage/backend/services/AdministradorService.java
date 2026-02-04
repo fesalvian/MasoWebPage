@@ -12,6 +12,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class AdministradorService {
 
@@ -27,23 +30,101 @@ public class AdministradorService {
     public Administrador salvar(Administrador adm) throws UsuarioException {
         valida(adm);
 
-        String senhaC = encoder.encode(adm.getUsuario().getPassword());
+        // Verifica se já existe administrador com este CPF
+        Optional<Administrador> existenteOpt = administradorRepository.findByCpf(adm.getCpf());
 
-        adm.getUsuario().setSenha(senhaC);
+        if (existenteOpt.isPresent()) {
+            // ADMINISTRADOR EXISTENTE - RECUPERAÇÃO
+            Administrador existente = existenteOpt.get();
 
-        adm.getUsuario().addRole(Role.ADM);
+            // Atualiza dados do administrador existente
+            existente.setNome(adm.getNome());
+            existente.setEmail(adm.getEmail());
 
-        Usuario usuario = adm.getUsuario();
-        usuario.setValido(true);
+            // Recupera/atualiza usuário
+            Usuario usuarioExistente = existente.getUsuario();
+            usuarioExistente.setValido(true);
 
+            // Se o login foi alterado, atualiza
+            if (!usuarioExistente.getLogin().equals(adm.getUsuario().getLogin())) {
+                usuarioExistente.setLogin(adm.getUsuario().getLogin());
+            }
 
-        Usuario usuarioSave = usuarioRepository.save(usuario);
-        adm.setUsuario(usuarioSave);
+            // Atualiza senha se fornecida
+            if (adm.getUsuario().getPassword() != null && !adm.getUsuario().getPassword().isEmpty()) {
+                String novaSenha = encoder.encode(adm.getUsuario().getPassword());
+                usuarioExistente.setSenha(novaSenha);
+            }
 
-        return administradorRepository.save(adm);
+            // Garante que tem a role ADM
+            if (!usuarioExistente.getRoles().contains(Role.ADM)) {
+                usuarioExistente.addRole(Role.ADM);
+            }
 
+            // Salva primeiro o usuário
+            Usuario usuarioSalvo = usuarioRepository.save(usuarioExistente);
+            existente.setUsuario(usuarioSalvo);
+
+            // Salva o administrador atualizado
+            return administradorRepository.save(existente);
+
+        } else {
+            // NOVO ADMINISTRADOR - CRIAÇÃO
+            String senhaCriptografada = encoder.encode(adm.getUsuario().getPassword());
+            adm.getUsuario().setSenha(senhaCriptografada);
+            adm.getUsuario().addRole(Role.ADM);
+            adm.getUsuario().setValido(true);
+
+            // Salva primeiro o usuário
+            Usuario usuarioSalvo = usuarioRepository.save(adm.getUsuario());
+            adm.setUsuario(usuarioSalvo);
+
+            // Salva o administrador
+            return administradorRepository.save(adm);
+        }
     }
 
+    private Administrador atualizarAdministradorExistente(Administrador existente, Administrador novosDados) {
+        // Atualiza dados básicos
+        existente.setNome(novosDados.getNome());
+        existente.setEmail(novosDados.getEmail());
+
+        // Atualiza usuário
+        Usuario usuario = existente.getUsuario();
+        usuario.setValido(true);
+        usuario.setLogin(novosDados.getUsuario().getLogin());
+
+        // Atualiza senha se fornecida
+        if (novosDados.getUsuario().getPassword() != null &&
+                !novosDados.getUsuario().getPassword().isEmpty()) {
+            usuario.setSenha(encoder.encode(novosDados.getUsuario().getPassword()));
+        }
+
+        // Garante role ADM
+        if (!usuario.getRoles().contains(Role.ADM)) {
+            usuario.addRole(Role.ADM);
+        }
+
+        // Salva
+        Usuario usuarioSalvo = usuarioRepository.save(usuario);
+        existente.setUsuario(usuarioSalvo);
+
+        return administradorRepository.save(existente);
+    }
+
+    private Administrador criarNovoAdministrador(Administrador adm) {
+        // Criptografa senha
+        adm.getUsuario().setSenha(encoder.encode(adm.getUsuario().getPassword()));
+        adm.getUsuario().addRole(Role.ADM);
+        adm.getUsuario().setValido(true);
+
+        // Salva usuário primeiro
+        Usuario usuarioSalvo = usuarioRepository.save(adm.getUsuario());
+        adm.setUsuario(usuarioSalvo);
+
+        // Salva administrador
+        return administradorRepository.save(adm);
+    }
     @Transactional
     public Administrador atualizar(AdministradorAtualizar adm, String login) throws Exception {
 
@@ -66,9 +147,6 @@ public class AdministradorService {
         return administradorRepository.save(administrador);
     }
 
-
-
-
     private void valida(Administrador adm) throws UsuarioException {
         if (adm.getUsuario().getLogin() == null || adm.getUsuario().getSenha() == null) {
             throw new UsuarioException("login ou senha nulos");
@@ -82,7 +160,10 @@ public class AdministradorService {
     }
 
     public Administrador buscaAdmPorLogin(String login) {
-        Usuario usuario = usuarioRepository.findByLogin(login).get();
-        return administradorRepository.getByUsuario(usuario);
+       return administradorRepository.getByUsuario(usuarioRepository.getByLogin(login));
+    }
+
+    public List<Administrador> buscaTodos() {
+        return administradorRepository.findAll();
     }
 }

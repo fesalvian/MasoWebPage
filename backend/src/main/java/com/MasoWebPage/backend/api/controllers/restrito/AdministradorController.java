@@ -18,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/restrito")
 @PreAuthorize("@AuthUtil.isADM()")
@@ -38,7 +40,6 @@ public class AdministradorController {
     @PostMapping("/cadastro")
     public ResponseEntity<Administrador> cadastro(@RequestBody @Valid AdministradorDTO dados, UriComponentsBuilder uriBuilder){
       try {
-          System.out.println("cadastro");
           var administrador = administradorService.salvar(new Administrador(dados));
           var uri = uriBuilder.path("/adm/{id}").buildAndExpand(administrador.getId()).toUri();
 
@@ -74,6 +75,10 @@ public class AdministradorController {
         return ResponseEntity.ok(administradorService.buscaAdmPorLogin(login));
     }
 
+    @GetMapping("/adms")
+    public ResponseEntity<List<Administrador>> buscaTodos(){
+        return ResponseEntity.ok(administradorService.buscaTodos());
+    }
 }
 
 
