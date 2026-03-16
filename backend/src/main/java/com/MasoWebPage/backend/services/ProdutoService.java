@@ -17,8 +17,8 @@ public class ProdutoService {
     private ProdutoRepository produtoRepository;
 
     public Produto cadastrar(Produto produto){
-        System.out.println(produto.getUrlsImagens());
-        if (produto.getUrlsImagens() == null) produto.setUrlsImagens(new ArrayList<>());
+        System.out.println(produto.getImagensUrls());
+        if (produto.getAmbiente() == null) produto.setImagensUrls(new ArrayList<>());
         return produtoRepository.save(produto);
     }
 

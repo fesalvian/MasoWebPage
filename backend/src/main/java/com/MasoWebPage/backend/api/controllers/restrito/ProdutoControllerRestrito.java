@@ -23,7 +23,7 @@ public class ProdutoControllerRestrito {
     @PostMapping
     public ResponseEntity<ProdutoDTO> cadastrar(@RequestBody ProdutoDTO produto, UriComponentsBuilder uriBuilder) {
 
-        System.out.println(produto.urlsImagens());
+        System.out.println(produto.imagensUrls());
 
         Produto produtoCadastrado = produtoService.cadastrar(new Produto(produto));
         var uri = uriBuilder.path("/produto/{id}").buildAndExpand(produtoCadastrado.getId()).toUri();
