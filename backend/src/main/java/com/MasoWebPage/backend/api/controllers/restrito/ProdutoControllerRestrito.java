@@ -12,7 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 
 @RestController
-    @RequestMapping("/restrito/produto")
+@RequestMapping("/restrito/produto")
 @PreAuthorize("@AuthUtil.isADM()")
 public class ProdutoControllerRestrito {
 
